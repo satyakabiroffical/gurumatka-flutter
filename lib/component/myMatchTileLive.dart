@@ -78,7 +78,8 @@ class MyMatchTileLive extends StatelessWidget {
                   alignment: AlignmentDirectional.center,
                   width: double.infinity,
                   margin: EdgeInsets.only(
-                    top: SC.from_width(4)
+                    top: SC.from_width(4),
+
                   ),
                   height: SC.from_width(17),
                   decoration: BoxDecoration(
@@ -87,11 +88,11 @@ class MyMatchTileLive extends StatelessWidget {
                   ),
                   child: Text("Live"
                   ,style: TextStyle(
-                      fontWeight: FontWeight.w700
+                      fontWeight: FontWeight.w400
                     ),),
                 ),
 
-                
+
 
 
               ],),

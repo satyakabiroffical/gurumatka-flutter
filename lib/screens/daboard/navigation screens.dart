@@ -5,7 +5,9 @@ import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/bakckground.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
 import 'package:guru_matka_new/screens/daboard/chart/chartSCree.dart';
+import 'package:guru_matka_new/screens/daboard/chatSreen/chatScren.dart';
 import 'package:guru_matka_new/screens/daboard/home/homeScreen.dart';
+import 'package:guru_matka_new/screens/daboard/invest%20and%20earn/invest%20and%20earn.dart';
 import 'package:guru_matka_new/screens/daboard/myMath/myMatchScreen.dart';
 
 
@@ -79,10 +81,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 MyMatchScreen(),
 
                 //
-                Container(color: Colors.green,child: Center(child: Text("devlopment"))),
+                ChatScreen(),
 
                 //
-                Container(color: Colors.lightBlue,child: Center(child: Text("devlopment"))),
+                ShearAndEarnScreen(),
               ],
 
             )),

@@ -9,7 +9,7 @@ class ChartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      backgroundColor: Colors.grey.shade900,
+     
 
       appBar: AppBar(
         title: Text("Chart"),

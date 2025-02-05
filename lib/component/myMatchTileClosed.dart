@@ -52,6 +52,8 @@ class MyMatchTileClosed extends StatelessWidget {
           ),
 
 
+
+          //Center part
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,11 +69,30 @@ class MyMatchTileClosed extends StatelessWidget {
                   ),),
 
                 //
-                Text("Winner Number",
+                Text("3444 people are playing",
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: SC.from_width(12)
                   ),),
+
+                //
+                Container(
+                  alignment: AlignmentDirectional.center,
+                  width: double.infinity,
+                  margin: EdgeInsets.only(
+                      top: SC.from_width(4),
+                      right: SC.from_width(50)
+                  ),
+                  height: SC.from_width(17),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2),
+                      color: Colors.red
+                  ),
+                  child: Text("Close"
+                    ,style: TextStyle(
+                        fontWeight: FontWeight.w400
+                    ),),
+                )
 
 
               ],),
@@ -79,7 +100,9 @@ class MyMatchTileClosed extends StatelessWidget {
 
 
 
+          //trailing part
           Container(
+            padding: EdgeInsets.all(8),
             alignment:Alignment.center,
             height: SC.from_width(55),
             width: SC.from_width(55),
@@ -102,12 +125,7 @@ class MyMatchTileClosed extends StatelessWidget {
 
             ),
 
-            child: Text("87",
-              style: TextStyle(
-                  color: AppConstant.themYellow,
-                  fontWeight: FontWeight.w700,
-                  fontSize: SC.from_width(24)
-              ),),
+            child: Image.asset(AIcon.thumbDown),
           )
 
           //

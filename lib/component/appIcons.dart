@@ -11,5 +11,7 @@ class AIcon{
   static String transictionHistory ='assets/icons/transectioHistory].png';
   static String sampleProfile ='assets/icons/sempleProfileImage.png';
   static String crown ='assets/icons/crewn.png';
+  static String thumbDown ='assets/icons/thubdown.png';
+  static String chatAppBarBgImage = 'assets/icons/spBg2.png';
 
 }

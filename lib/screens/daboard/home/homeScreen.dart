@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%20file.dart';
 import 'package:guru_matka_new/screens/daboard/home/drawer.dart';
+import 'package:guru_matka_new/screens/homeSubScreens/notificationscreens.dart';
+import 'package:guru_matka_new/screens/walletscreens/walletSCreend.dart';
 
 import '../../../component/appIcons.dart';
 import '../../../component/provfileAvtar.dart';
@@ -31,8 +34,11 @@ class HomeScreen extends StatelessWidget {
           builder: (context) => IconButton(
             icon:ProfieleAvtar(
               redias: SC.from_width(52),
-              child: Image.asset(AIcon.sampleProfile,
-                fit: BoxFit.cover,),
+              child: Hero(
+                tag: AIcon.sampleProfile,
+                child: Image.asset(AIcon.sampleProfile,
+                  fit: BoxFit.cover,),
+              ),
             ), // Custom drawer icon
             onPressed: () {
               Scaffold.of(context).openDrawer(); // Works inside Builder
@@ -46,13 +52,17 @@ class HomeScreen extends StatelessWidget {
           
           //wallet 
           IconButton(
-              onPressed: (){},
+              onPressed: (){
+                RouteTo(context, child: (p0, p1) => WalletScreen(),);
+              },
               icon: Icon(Icons.wallet)
           ),
 
           //
           IconButton(
-              onPressed: (){},
+              onPressed: (){
+                RouteTo(context, child: (p0, p1) => NotificationScreen(),);
+              },
               icon: Icon(Icons.notifications)
           ),
         ],

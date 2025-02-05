@@ -41,8 +41,11 @@ class AppDrawer extends StatelessWidget {
                   //Profile Image
                   ProfieleAvtar(
                     redias: SC.from_width(52),
-                    child: Image.asset(AIcon.sampleProfile,
-                      fit: BoxFit.cover,),
+                    child: Hero(
+                      tag: AIcon.sampleProfile,
+                      child: Image.asset(AIcon.sampleProfile,
+                        fit: BoxFit.cover,),
+                    ),
                   ),
                   
                   
