@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%20file.dart';
+import 'package:guru_matka_new/screens/GamsScreens/games_Screens.dart';
 import 'package:guru_matka_new/screens/daboard/home/drawer.dart';
 import 'package:guru_matka_new/screens/homeSubScreens/notificationscreens.dart';
 import 'package:guru_matka_new/screens/walletscreens/walletSCreend.dart';
@@ -90,7 +91,11 @@ class HomeScreen extends StatelessWidget {
           SizedBox(height: SC.from_width(7),),
           
           //
-          Image.asset('assets/homeImage/home2.png')
+          GestureDetector(
+            onTap: (){
+              RouteTo(context, child: (p0, p1) => GamesScreen(),);
+            },
+              child: Image.asset('assets/homeImage/home2.png'))
 
 
 

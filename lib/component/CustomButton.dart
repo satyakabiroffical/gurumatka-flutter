@@ -5,15 +5,20 @@ import 'package:guru_matka_new/daimention/daimentio%20n.dart';
 class CustomButton extends StatelessWidget {
   final String title;
   final double? height;
+  final bool waiting;
   final double? width;
   final void Function()? onTap;
-  const CustomButton({this.onTap,this.width,this.height,required this.title ,super.key});
+  const CustomButton({this.waiting = false,this.onTap,this.width,this.height,required this.title ,super.key});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular((height!=null)?height!/2:SC.from_width(49)/2)
+        borderRadius: BorderRadius.circular((height!=null)?height!/2:SC.from_width(49)/2),
+        side: BorderSide(
+          color: Colors.black,
+        )
+      
       ),
       clipBehavior: Clip.hardEdge,
       elevation: 0,
@@ -30,7 +35,10 @@ class CustomButton extends StatelessWidget {
         child: InkWell(
           splashColor: Color.fromRGBO(240, 167, 30, .5),
           onTap:onTap,
-            child: Center(child: Text(title,style: TextStyle(fontWeight: FontWeight.w600,fontSize: SC.from_width(16),color: Colors.black),))),
+            child: Center(child:
+            (waiting)?
+                CircularProgressIndicator():
+            Text(title,style: TextStyle(fontWeight: FontWeight.w600,fontSize: SC.from_width(16),color: Colors.black),))),
       ),
     );
   }

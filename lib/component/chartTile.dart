@@ -38,6 +38,7 @@ class ChartTile extends StatelessWidget {
 
           //
           Container(
+          padding: EdgeInsets.symmetric(horizontal: 3),
             height: SC.from_width(59),
             width: SC.from_width(59),
             margin: EdgeInsets.only(

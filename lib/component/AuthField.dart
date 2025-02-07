@@ -34,6 +34,7 @@ class AuthField extends StatelessWidget {
           fontWeight: FontWeight.w400,
           fontSize: SC.from_width(14)),
 
+
       //
       decoration: InputDecoration(
         

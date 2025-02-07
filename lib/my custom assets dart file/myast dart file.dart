@@ -267,6 +267,47 @@ dynamic RouteTo(
 }
 
 
+dynamic ReplaceAll(
+    BuildContext context,
+    {
+      required Widget Function(Animation,Animation) child,
+      RoutAnimation animation = RoutAnimation.slid,
+      RoutAnimationConfiguration configuration = const RoutAnimationConfiguration()
+    })async{
+
+  var result;
+  if(animation == RoutAnimation.fade)
+  {
+    result = await Navigator.of(context).pushAndRemoveUntil(createPageRouteFade(child,configuration:configuration),(route) => false,);
+  }
+  if(animation == RoutAnimation.slid)
+  {
+    result = await Navigator.of(context).pushAndRemoveUntil(createPageRoute(child,configuration:configuration),(route) => false);
+  }
+  if(animation == RoutAnimation.scale)
+  {
+    result = await Navigator.of(context).pushAndRemoveUntil(createPageRouteScale(child,configuration:configuration),(route) => false);
+  }
+  if(animation == RoutAnimation.rotate)
+  {
+    result = await Navigator.of(context).pushAndRemoveUntil(createPageRouteRotation(child,configuration:configuration),(route) => false);
+  }
+  if(animation == RoutAnimation.slidDown)
+  {
+    result = await Navigator.of(context).pushAndRemoveUntil(createPageRouteSlidDown(child,configuration:configuration),(route) => false);
+  }
+  if(animation == RoutAnimation.slidUp)
+  {
+    result = await Navigator.of(context).pushAndRemoveUntil(createPageRouteSlidUp(child,configuration:configuration),(route) => false);
+  }
+  if(animation == RoutAnimation.slidRight)
+  {
+    result = await Navigator.of(context).pushAndRemoveUntil(createPageRouteSlidRight(child,configuration:configuration),(route) => false);
+  }
+  return result;
+}
+
+
 
 
 

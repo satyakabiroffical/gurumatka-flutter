@@ -6,9 +6,11 @@ import '../daimention/daimentio n.dart';
 class AppConstant  {
   
   // static Color themYellow = Color.fromRGBO(240,167,30,1);
-  static Color themYellow = Color.fromRGBO(240, 167, 30, 1);
+ //rgba(254, 209, 97, 1)
+  static Color themYellow = Color.fromRGBO(254, 209, 97, 1);
+  static Color themGrey = Colors.grey.shade900;
   static BoxDecoration greyBoxDecoration = BoxDecoration(
-      color: Colors.grey.shade900,
+      color: themGrey,
       borderRadius: BorderRadius.circular(8),
       border: Border.all()
   );

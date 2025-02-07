@@ -3,6 +3,12 @@ import 'package:guru_matka_new/component/appIcons.dart';
 import 'package:guru_matka_new/component/drawer%20tile.dart';
 import 'package:guru_matka_new/component/provfileAvtar.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%20file.dart';
+import 'package:guru_matka_new/screens/daboard/home/homeScreen.dart';
+import 'package:guru_matka_new/screens/drawerscreens/compeny_trust_screen.dart';
+import 'package:guru_matka_new/screens/drawerscreens/how_to_play_screen.dart';
+import 'package:guru_matka_new/screens/drawerscreens/leaderBoard/leaderBoard.dart';
+import 'package:guru_matka_new/screens/drawerscreens/transection_history.dart';
 
 import '../../../component/AppConstent.dart';
 
@@ -103,21 +109,34 @@ class AppDrawer extends StatelessWidget {
             
             //
             DrawerTile(
+              onTap: (){
+                RouteTo(context, child: (p0, p1) => HowToPlayScreen(),);
+              },
               icon:Image.asset(AIcon.how_to_play,height: SC.from_width(24),),
                 label: "How to Play"),
 
             //
             DrawerTile(
+              onTap:(){
+                RouteTo(context, child: (p0, p1) => CompenyTrustScreen(),);
+              } ,
                 icon:Image.asset(AIcon.star,height: SC.from_width(24),),
-                label: "Compaby trust profile"),
+                label: "Company trust profile"),
 
             //
             DrawerTile(
+              onTap: (){
+                RouteTo(context, child: (p0, p1) => TransectionHistory(),);
+              },
                 icon:Image.asset(AIcon.transictionHistory,height: SC.from_width(24),),
                 label: "Transaction History"),
 
             //
             DrawerTile(
+                onTap: ()
+                {
+                  RouteTo(context, child: (p0, p1) => LeaderBoard(),);
+                },
                 icon:Image.asset(AIcon.leadBoard,height: SC.from_width(24),),
                 label: "Leaderboard"),
 

@@ -10,7 +10,6 @@ class DrawerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-
       onTap: onTap,
 
       leading: icon,

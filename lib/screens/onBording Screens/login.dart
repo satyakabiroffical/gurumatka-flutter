@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:guru_matka_new/Controllers/auth_controller.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/AuthField.dart';
 import 'package:guru_matka_new/component/CustomButton.dart';
@@ -8,6 +9,7 @@ import 'package:guru_matka_new/component/bakckground.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%20file.dart';
 import 'package:guru_matka_new/screens/onBording%20Screens/Otp.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -29,21 +31,21 @@ class LoginScreen extends StatelessWidget {
         ),
 
         //
-        bottomSheet: Container(
+        bottomSheet: Consumer<AuthProvider>(builder: (context, p, child) => Container(
 
           height: SC.from_width(470),
           decoration: BoxDecoration(
               color: Colors.black,
 
-            borderRadius: BorderRadius.only(
+              borderRadius: BorderRadius.only(
 
-              topRight: Radius.circular(15),
-              topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+                topLeft: Radius.circular(15),
 
-            )
+              )
           ),
-          
-          
+
+
           child: Padding(
 
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -62,13 +64,13 @@ class LoginScreen extends StatelessWidget {
                 Text(
                   'Enter your mobile number',
                   style: TextStyle(
-                  color: Colors.white,
-                  fontSize: SC.from_width(14),
-                  fontWeight: FontWeight.w400
-                ),),
+                      color: Colors.white,
+                      fontSize: SC.from_width(14),
+                      fontWeight: FontWeight.w400
+                  ),),
                 SizedBox(height: SC.from_width(21),),
 
-                
+
                 //
                 MySlideTr(
                   animation: animation,
@@ -77,7 +79,12 @@ class LoginScreen extends StatelessWidget {
                   intervel: 0,
                   endInterver: 1,
                   child: AuthField(
+                    controller: p.numberController,
                     keyBoardtype: TextInputType.number,
+                    validator: (d){
+                      return 'error';
+                    },
+
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(10),
                       FilteringTextInputFormatter.digitsOnly
@@ -85,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                     prefix: SizedBox(
                       height: SC.from_width(50),
                       child: AspectRatio(
-                        aspectRatio: 1,
+                          aspectRatio: 1,
                           child: Center(child: Text('+91',style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w400,
@@ -96,7 +103,7 @@ class LoginScreen extends StatelessWidget {
                 ),
 
                 SizedBox(height: SC.from_width(34),),
-                
+
                 //
                 MySlideTr(
                   animation: animation,
@@ -105,20 +112,22 @@ class LoginScreen extends StatelessWidget {
                   endInterver: 1,
                   startPosition: Offset(1, 0),
                   child: CustomButton(
-                    onTap: (){
-                      RouteTo(context, child: (p0, p1) => OtpScreen(animation: p0,),);
-                    },
+                    waiting: p.sending,
+                      onTap: (){
+                        p.sentOtp(context);
+                        // RouteTo(context, child: (p0, p1) => OtpScreen(animation: p0),);
+                      },
                       title: "Next"
                   ),
                 ),
-                
+
 
 
               ],
             ),
           ),
 
-        ),
+        ),),
       ),
     );
   }
