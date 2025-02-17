@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:guru_matka_new/Controllers/profileProvider.dart';
+import 'package:guru_matka_new/apiService/api_path.dart';
 import 'package:guru_matka_new/component/appIcons.dart';
 import 'package:guru_matka_new/component/drawer%20tile.dart';
 import 'package:guru_matka_new/component/provfileAvtar.dart';
@@ -6,9 +8,11 @@ import 'package:guru_matka_new/daimention/daimentio%20n.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%20file.dart';
 import 'package:guru_matka_new/screens/daboard/home/homeScreen.dart';
 import 'package:guru_matka_new/screens/drawerscreens/compeny_trust_screen.dart';
+import 'package:guru_matka_new/screens/drawerscreens/edit_profile_screen.dart';
 import 'package:guru_matka_new/screens/drawerscreens/how_to_play_screen.dart';
 import 'package:guru_matka_new/screens/drawerscreens/leaderBoard/leaderBoard.dart';
 import 'package:guru_matka_new/screens/drawerscreens/transection_history.dart';
+import 'package:provider/provider.dart';
 
 import '../../../component/AppConstent.dart';
 
@@ -25,16 +29,16 @@ class AppDrawer extends StatelessWidget {
             
             //
             //Profile Section
-            Container(
+            Consumer<ProfileProvider>(builder: (context, p, child) => Container(
               //
               width: double.infinity,
               //
               decoration: BoxDecoration(
-                color:  Colors.black,
-                borderRadius:BorderRadius.only(
-                  bottomLeft: Radius.circular(12),
-                  bottomRight: Radius.circular(12),
-                )
+                  color:  Colors.black,
+                  borderRadius:BorderRadius.only(
+                    bottomLeft: Radius.circular(12),
+                    bottomRight: Radius.circular(12),
+                  )
               ),
               //
               height: SC.from_width(296),
@@ -42,45 +46,67 @@ class AppDrawer extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  
+
                   //
                   //Profile Image
-                  ProfieleAvtar(
-                    redias: SC.from_width(52),
-                    child: Hero(
-                      tag: AIcon.sampleProfile,
-                      child: Image.asset(AIcon.sampleProfile,
-                        fit: BoxFit.cover,),
+                  SizedBox(
+                    height: SC.from_width(104),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Stack(
+                        children: [
+
+                          //
+                          ProfieleAvtar(
+                            showEditButton: true,
+                            redias: SC.from_width(52),
+                            child: Image.network('${MyUrl.bucketUrl}${p.user?.image}',
+                              errorBuilder: (context, error, stackTrace) => Center(child: Icon(Icons.person),),
+                              fit: BoxFit.cover,),
+                          ),
+
+                          //
+                          Positioned(
+                            right: 0 ,
+                              bottom: SC.from_width(10),
+                              child: InkWell(
+                                onTap: (){
+                                  RouteTo(context, child: (p0, p1) => EditProfileScreen(),);
+
+                                },
+                                  child: CircleAvatar(child: Icon(Icons.edit))),),
+                        ],
+                      ),
                     ),
                   ),
-                  
-                  
-                  //Name Text 
-                  Text("Raghav Singh",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: SC.from_width(20),
-                    fontWeight: FontWeight.w700
-                  ),),
-                  
+
+
+                  //Name Text
+                  Text("${p.user?.userName??'User'}",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: SC.from_width(20),
+                        fontWeight: FontWeight.w700
+                    ),),
+
                   //Email Text
-                  Text("Raghav0004@gmail.com",
+                  Text("${p.user?.email??'email'}",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: SC.from_width(14),
                           fontWeight: FontWeight.w400
                       )),
                   SizedBox(height: SC.from_width(23),),
-                  
-                  
+
+
                   //Profile Progress Text
                   Text('60% profile completed',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: SC.from_width(14),
-                      fontWeight: FontWeight.w400
-                  ),),
-                  
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: SC.from_width(14),
+                        fontWeight: FontWeight.w400
+                    ),),
+
                   //Value slider
                   SizedBox(
                     height: SC.from_width(20),
@@ -105,7 +131,7 @@ class AppDrawer extends StatelessWidget {
                   )
                 ],
               ),
-            ),
+            ),),
             
             //
             DrawerTile(

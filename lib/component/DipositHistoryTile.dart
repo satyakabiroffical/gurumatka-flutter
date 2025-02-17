@@ -1,9 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/models/transectionhistory%20responce.dart';
 
 class DipositHistoryTile extends StatelessWidget {
-  const DipositHistoryTile({super.key});
+  final Transaction? transaction;
+  const DipositHistoryTile({this.transaction,super.key});
+
+
+  String formatTime(DateTime? dateTime) {
+    if(dateTime!=null){
+      return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')} ${dateTime.hour >= 12 ? 'PM' : 'AM'}';
+    }
+    else{
+      return '';
+    }
+  }
+
+
+  String formatDate(DateTime? dateTime) {
+    List<String> months = [
+      'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+      'September', 'October', 'November', 'December'
+    ];
+    if(dateTime!=null)
+      {
+        return '${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}';
+
+      }
+    else
+      {
+        return '';
+      }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,23 +90,27 @@ class DipositHistoryTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 //
-                Text("+100 ₹",
+                Text("${(transaction?.status=="Approved"?'+':'')}${transaction?.amount??0} ₹",
                   maxLines: 1,
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: SC.from_width(16),
-                      color: Colors.green
+                      color: (transaction?.status=="Rejected")?
+                      Colors.red:
+                      (transaction?.status=="Pending")?
+                          Colors.yellow:
+                          Colors.green
                   ),),
 
                 //
-                Text("07: 01 PM",
+                Text("${formatTime(transaction?.createdAt)}",
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: SC.from_width(12),
                   ),),
 
                 //
-                Text("January 29, 2025",
+                Text("${formatDate(transaction?.createdAt)}",
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: SC.from_width(12),

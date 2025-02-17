@@ -42,7 +42,13 @@ class MessageField extends StatelessWidget {
 
         //
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(100)
+            borderRadius: BorderRadius.circular(100),
+            borderSide: BorderSide.none
+        ),
+
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(100),
+            borderSide: BorderSide.none
         ),
 
         focusedBorder: OutlineInputBorder(

@@ -8,7 +8,8 @@ class CustomFeild extends StatelessWidget {
   final TextEditingController? controller;
   final List<TextInputFormatter>? formatters;
   final String? hintText;
-  const CustomFeild({this.inputType,this.hintText,this.formatters,this.controller,required this.label,super.key});
+  final String? Function(String?)? validator;
+  const CustomFeild({this.validator,this.inputType,this.hintText,this.formatters,this.controller,required this.label,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class CustomFeild extends StatelessWidget {
 
         //
         TextFormField(
+          validator: validator,
           keyboardType: inputType,
           controller: controller,
           inputFormatters: formatters,

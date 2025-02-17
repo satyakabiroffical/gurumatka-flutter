@@ -5,9 +5,10 @@ import 'AppConstent.dart';
 import 'appIcons.dart';
 
 class ProfieleAvtar extends StatelessWidget {
+  final bool showEditButton;
   final double? redias;
   final Widget? child;
-  const ProfieleAvtar({this.redias,this.child,super.key});
+  const ProfieleAvtar({this.showEditButton=false,this.redias,this.child,super.key});
 
   @override
   Widget build(BuildContext context) {

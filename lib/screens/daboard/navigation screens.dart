@@ -90,8 +90,15 @@ class _NavigationScreenState extends State<NavigationScreen> {
             )),
             //Navigation bar
             Container(
-              color: Colors.black,
-              height: SC.from_width(80),
+
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                )
+              ),
+              height: SC.from_width(70),
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Theme(
                 data: ThemeData(
@@ -106,13 +113,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
                   selectedLabelStyle: TextStyle(
                     color: Colors.white,
-                    fontSize: SC.from_width(12),
+                    fontSize: SC.from_width(10),
                     fontWeight: FontWeight.w400
                   ),
 
                   unselectedLabelStyle: TextStyle(
                     color: Colors.white,
-                      fontSize: SC.from_width(12),
+                      fontSize: SC.from_width(10),
                       fontWeight: FontWeight.w400
                   ),
 
@@ -129,10 +136,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
 
                   items: List.generate(icons.length, (index) => BottomNavigationBarItem(
-                    icon: Image.asset(icons[index]['icon']??'',height: SC.from_width(25)),
+                    icon: Image.asset(icons[index]['icon']??'',height: SC.from_width(20)),
                     label: icons[index]['label']??'',
                     backgroundColor: Colors.black,
-                    activeIcon: Image.asset(icons[index]['icon']??'',height: SC.from_width(25),color: AppConstant.themYellow,)
+                    activeIcon: Image.asset(icons[index]['icon']??'',height: SC.from_width(23),color: AppConstant.themYellow,)
                   ),),
                 ),
               ),

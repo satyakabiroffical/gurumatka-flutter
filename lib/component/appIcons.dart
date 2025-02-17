@@ -15,5 +15,6 @@ class AIcon{
   static String chatAppBarBgImage = 'assets/icons/spBg2.png';
   static String whatsApp = 'assets/icons/whatsApp.png';
   static String clickGesture = 'assets/icons/click-gesture-svgrepo-com 1.png';
+  static String wallet = 'assets/icons/wallet.png';
 
 }

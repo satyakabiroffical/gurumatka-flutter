@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:guru_matka_new/Controllers/auth_controller.dart';
 import 'package:guru_matka_new/component/CustomButton.dart';
 import 'package:guru_matka_new/component/bakckground.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/actionButton.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%20file.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/roun%20animation%20configration.dart';
+import 'package:guru_matka_new/screens/daboard/home/homeScreen.dart';
+import 'package:guru_matka_new/screens/daboard/navigation%20screens.dart';
 import 'package:guru_matka_new/screens/onBording%20Screens/login.dart';
+import 'package:provider/provider.dart';
 
 class OnBoard extends StatelessWidget {
   const OnBoard({super.key});
@@ -48,9 +52,18 @@ class OnBoard extends StatelessWidget {
                 right: SC.from_width(31),
                 child: CustomButton(
                   onTap: ()async{
-                    RouteTo(context, child: (p0, p1) => LoginScreen(animation: p0,),);
-                  },
-                    title: "Start Now")),
+                    var _d = await Provider.of<AuthProvider>(context,listen: false).isLoggedIn();
+                    if(_d)
+                      {
+                        RouteTo(context, child: (p0, p1) =>NavigationScreen());
+                      }
+                    else
+                      {
+                        RouteTo(context, child: (p0, p1) => LoginScreen(animation: p0,),);
+                      }
+                    },
+                    title: "Start Now",
+                )),
 
 
 

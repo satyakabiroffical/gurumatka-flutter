@@ -3,19 +3,21 @@ import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:flutter/material.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/models/chat_resp.dart';
 
 
 class MyChatBubble  extends StatelessWidget {
-  final isSender;
-  final String text;
-  const MyChatBubble ({this.text='',this.isSender=false,super.key});
+
+  final Message message;
+  const MyChatBubble ({required this.message,super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isSender= message.type=="USER" ;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: BubbleSpecialOne(
-        text: text,
+        text: message.message??'',
         tail: true,
 
         sent: false,

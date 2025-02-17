@@ -1,9 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/models/withdrawHistoryModel.dart';
 
 class WithdrawHistoryTile extends StatelessWidget {
-  const WithdrawHistoryTile({super.key});
+  final WithdrawData? data;
+  const WithdrawHistoryTile({this.data,super.key});
+
+
+  String formatTime(DateTime? dateTime) {
+    if(dateTime!=null){
+      return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')} ${dateTime.hour >= 12 ? 'PM' : 'AM'}';
+    }
+    else{
+      return '';
+    }
+  }
+
+
+  String formatDate(DateTime? dateTime) {
+    List<String> months = [
+      'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+      'September', 'October', 'November', 'December'
+    ];
+    if(dateTime!=null)
+    {
+      return '${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}';
+
+    }
+    else
+    {
+      return '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,23 +90,27 @@ class WithdrawHistoryTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 //
-                Text("-20 ₹",
+                Text("${data?.ammount??0} ₹",
                 maxLines: 1,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: SC.from_width(16),
-                  color: AppConstant.themYellow
+                    color: (data?.status=="Rejected")?
+                    Colors.red:
+                    (data?.status=="Pending")?
+                    Colors.yellow:
+                    Colors.green
                 ),),
 
                 //
-                Text("07: 01 PM",
+                Text("${formatTime(data?.createdAt)}",
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: SC.from_width(12),
                 ),),
 
                 //
-                Text("January 29, 2025",
+                Text("${formatDate(data?.createdAt)}",
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: SC.from_width(12),

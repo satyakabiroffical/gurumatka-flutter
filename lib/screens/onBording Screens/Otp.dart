@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:guru_matka_new/Controllers/auth_controller.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/AuthField.dart';
 import 'package:guru_matka_new/component/CustomButton.dart';
@@ -11,6 +12,7 @@ import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/animated%20dil
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%20file.dart';
 import 'package:guru_matka_new/screens/daboard/navigation%20screens.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -32,7 +34,7 @@ class OtpScreen extends StatelessWidget {
         ),
 
         //
-        bottomSheet: Container(
+        bottomSheet: Consumer<AuthProvider>(builder: (context, p, child) => Container(
 
           height: SC.from_width(470),
           decoration: BoxDecoration(
@@ -77,39 +79,41 @@ class OtpScreen extends StatelessWidget {
                     curve: Curves.easeOut,
                     startPosition: Offset(1, 0),
                     child: Pinput(
+                      //
+                      controller: p.otpController,
 
                       //
                       closeKeyboardWhenCompleted: true,
 
                       //
                       defaultPinTheme: PinTheme(
-                        width: SC.from_width(64),
-                        height: SC.from_width(64),
+                          width: SC.from_width(64),
+                          height: SC.from_width(64),
 
-                        textStyle: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                          fontSize: SC.from_width(16)
-                        ),
-
-                        //
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors:[
-                              Colors.black,
-
-                              Colors.grey.withOpacity(.1),
-                            ]
+                          textStyle: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
+                              fontSize: SC.from_width(16)
                           ),
 
                           //
-                          borderRadius: BorderRadius.circular(8),
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors:[
+                                    Colors.black,
 
-                          //
-                          border: Border.all(
-                            color: Colors.grey
+                                    Colors.grey.withOpacity(.1),
+                                  ]
+                              ),
+
+                              //
+                              borderRadius: BorderRadius.circular(8),
+
+                              //
+                              border: Border.all(
+                                  color: Colors.grey
+                              )
                           )
-                        )
                       ),
 
                       //
@@ -136,7 +140,8 @@ class OtpScreen extends StatelessWidget {
                   curve: Curves.easeIn,
                   child: CustomButton(
                       onTap: (){
-                        RouteTo(context, child: (p0, p1) => NavigationScreen(),);
+                        p.verifyOtp(context);
+                        // RouteTo(context, child: (p0, p1) => NavigationScreen(),);
                       },
                       title: "Submit Now"
                   ),
@@ -148,7 +153,7 @@ class OtpScreen extends StatelessWidget {
             ),
           ),
 
-        ),
+        ),),
       ),
     );
   }

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:guru_matka_new/Controllers/auth_controller.dart';
+import 'package:guru_matka_new/apiService/LogInAPi.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/bakckground.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/models/get_conpany_model.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -20,76 +25,17 @@ class CompenyTrustScreen extends StatelessWidget {
         ),
 
         //
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
+        body: Consumer<AuthProvider>(builder: (context, p, child) {
 
-            children: [
-
-
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: AppConstant.greyBoxDecoration,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
-                  Text('COMPANY PROFILE',style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize:SC.from_width(14)
-                  ),),
-
-                  //
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    titleTextStyle: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: SC.from_width(14)
-                    ),
-                    horizontalTitleGap: 5,
-                    leading: Icon(Icons.arrow_forward_ios),
-                    title: Text('The company will keep all your information safe. '),
-                  ),
-
-
-                  //
-                    ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      titleTextStyle: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: SC.from_width(14)
-                      ),
-                      horizontalTitleGap: 5,
-                      leading: Icon(Icons.arrow_forward_ios),
-                      title: Text('You can join the company without thinking, the company will not do any fraudulent work with you'),
-                    ),
-
-
-                    //
-                    ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      titleTextStyle: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: SC.from_width(14)
-                      ),
-                      horizontalTitleGap: 5,
-                      leading: Icon(Icons.arrow_forward_ios),
-                      title: Text('The company will respect your work and stay connected with you as a true friend. '),
-                    ),
-                  SizedBox(height: SC.from_width(30),)
-
-
-
-
-                  //
-
-
-                ],),
-              )
-
-            ],
-          ),
-        ),
+          return SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsets.all(20),
+              padding: EdgeInsets.all(10),
+              decoration: AppConstant.greyBoxDecoration,
+              child: HtmlWidget('${p.company?.data?.companyTrustProfile??''}'),),
+          );
+          
+        },),
       ),
     );
   }
