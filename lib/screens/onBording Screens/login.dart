@@ -7,6 +7,7 @@ import 'package:guru_matka_new/component/CustomButton.dart';
 import 'package:guru_matka_new/component/CustomSlideAnimation.dart';
 import 'package:guru_matka_new/component/bakckground.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/actionButton.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%20file.dart';
 import 'package:guru_matka_new/screens/onBording%20Screens/Otp.dart';
 import 'package:provider/provider.dart';
@@ -111,13 +112,11 @@ class LoginScreen extends StatelessWidget {
                   intervel: 0,
                   endInterver: 1,
                   startPosition: Offset(1, 0),
-                  child: CustomButton(
-                    waiting: p.sending,
-                      onTap: (){
-                        p.sentOtp(context);
-                        // RouteTo(context, child: (p0, p1) => OtpScreen(animation: p0),);
-                      },
-                      title: "Next"
+                  child: Center(
+                    child: MyactionButton(
+                        action: ()=>  p.sentOtp(context),
+                        lable: "Next"
+                    ),
                   ),
                 ),
 

@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:guru_matka_new/component/shoeMessage.dart';
 
+import '../component/shoeMessage.dart';
 import '../daimention/daimentio n.dart';
 
 
@@ -80,6 +82,7 @@ class _MyactionButtonState extends State<MyactionButton> {
               } catch (e) {
                 log("${'--' * 10} Error from myActionButton ${'--' * 10}\n");
                 log(e.toString());
+                showWarningMessage(context, "THis is Errro \n${e}");
                 log(widget.customErrorMessage.toString());
                 log("${'--' * 10} Error from myActionButton ${'--' * 10}\n");
                 if (widget.customErrorMessage != null) {
@@ -90,7 +93,6 @@ class _MyactionButtonState extends State<MyactionButton> {
               }
             }
 
-
           loding = false;
           setState(() {});
         }
@@ -99,19 +101,27 @@ class _MyactionButtonState extends State<MyactionButton> {
         curve: widget.curve ?? Curves.easeInOut,
         duration: widget.duretion ?? Duration(milliseconds: 300),
         height: widget.height??SC.from_width(49),
-        width: loding
-            ? widget.height
-            : widget.width ?? MediaQuery.of(context).size.width - 30,
+        // width: loding
+        //     ? widget.height
+        //     : widget.width ?? MediaQuery.of(context).size.width - 30,
+
+
+        // width: loding
+        //     ? (widget.height ?? SC.from_width(49)) // Use a default height value
+        //     : (widget.width ?? MediaQuery.of(context).size.width - 30),
+
+
+        width: (widget.width ?? MediaQuery.of(context).size.width - 30),
         child: Center(
             child: loding
                 ? CircularProgressIndicator(
-                    color: Colors.white,
+                    color: Colors.black,
                   )
                 : (widget.child != null && widget.lable == null)
                     ? widget.child
                     :  Text(
               "${widget.lable ?? "Press"}",
-              style: TextStyle( fontSize: SC.from_width(16),fontWeight: FontWeight.w600),
+              style:  TextStyle(fontWeight: FontWeight.w600,fontSize: SC.from_width(16),color: Colors.black),
             )),
         decoration: !loding
             ? widget.decoration ??

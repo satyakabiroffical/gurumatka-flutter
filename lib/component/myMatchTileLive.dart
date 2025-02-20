@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/appIcons.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/models/gameModel.dart';
 
 class MyMatchTileLive extends StatelessWidget {
-  const MyMatchTileLive({super.key});
+  final Game? game;
+  final bool? noLiveGame;
+  const MyMatchTileLive({this.noLiveGame,this.game,super.key});
 
   @override
   Widget build(BuildContext context) {
+
+
+
+
     return Container(
       padding: EdgeInsets.only(
           top: SC.from_width(13),
@@ -22,7 +29,11 @@ class MyMatchTileLive extends StatelessWidget {
           )
       ),
 
-      child:Row(
+
+      
+      
+
+      child:(noLiveGame==true)?Center(child: Text("No Live Is Game"),):Row(
         children: [
           Container(
             height: SC.from_width(110),
@@ -56,9 +67,10 @@ class MyMatchTileLive extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: SC.from_width(10),),
 
                 //
-                Text("Delhi",
+                Text("${game?.name??'Game'}",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -67,11 +79,11 @@ class MyMatchTileLive extends StatelessWidget {
                   ),),
 
                 //
-                Text("3444 people are playing",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: SC.from_width(12)
-                  ),),
+                // Text("3444 people are playing",
+                //   style: TextStyle(
+                //       fontWeight: FontWeight.w400,
+                //       fontSize: SC.from_width(12)
+                //   ),),
 
                 //background: rgba(108, 189, 66, 1);
                 Container(
@@ -103,6 +115,8 @@ class MyMatchTileLive extends StatelessWidget {
 
         ],
       ),
+
+
     );
   }
 }

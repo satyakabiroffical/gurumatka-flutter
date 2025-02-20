@@ -29,14 +29,8 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    connectSocket();
-    Provider.of<ChatProvider>(context,listen: false).lodeChats(context);
-    scrollController.addListener(() {
-      if(scrollController.position.pixels==scrollController.position.maxScrollExtent)
-        {
-          Provider.of<ChatProvider>(context,listen: false).loadMoreChat(context);
-        }
-    },);
+    Provider.of<SocketProvider>(context,listen: false).lodeChats(context);
+
   }
 
 
@@ -55,26 +49,7 @@ class _ChatScreenState extends State<ChatScreen> {
   // ),
 
 
-  connectSocket() async
-  {
-    print("connctin wb socket");
-    final uri = Uri.parse("ws://api.gurumatka.in:1111");
-    channel = WebSocketChannel.connect(uri);
 
-    await channel.ready;
-    print("connctin redy");
-
-    channel.stream.listen((event)async{
-      print("Listnning for chennerl \nEvent :- \n${event.runtimeType}");
-
-       await Provider.of<ChatProvider>(context,listen: false).handelEvent(event);
-      scrollController.animateTo(scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.linear);
-
-    },);
-
-
-
-  }
 
   ScrollController scrollController = ScrollController();
 
@@ -91,7 +66,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
 
 
-        body: Consumer<ChatProvider>(
+        body: Consumer<SocketProvider>(
 
           builder: (context, p, child) {
 
@@ -107,12 +82,20 @@ class _ChatScreenState extends State<ChatScreen> {
                 //
                 Expanded(child: p.message.length==0?
             Center(child: Image.asset(AIcon.chatAppBarBgImage)):
-                ListView.builder(
-                  controller: scrollController,
-                  padding: EdgeInsets.only(top: SC.from_width(20)),
-                  reverse: true,
-                  itemCount: p.message.length,
-                  itemBuilder: (context, index) => MyChatBubble(message: p.message[index]),
+                RefreshIndicator(
+
+
+
+                  onRefresh: ()async{
+                    Provider.of<SocketProvider>(context,listen: false).loadMoreChat(context);
+                  },
+                  child: ListView.builder(
+                    controller: scrollController,
+                    padding: EdgeInsets.only(top: SC.from_width(40)),
+                    reverse: true,
+                    itemCount: p.message.length,
+                    itemBuilder: (context, index) => MyChatBubble(message: p.message[index]),
+                  ),
                 )),
 
 
@@ -123,7 +106,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     onSend: (){
                       if(p.messageController.text.trim().isNotEmpty)
                       {
-                        p.sendMessage(context,channel,scrollController);
+                        p.sendMessage(context,scrollController);
                       }
                     },
                   ),

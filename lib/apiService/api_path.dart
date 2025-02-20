@@ -23,4 +23,14 @@ class MyUrl
   static String createWithdraw = 'users/createWithdraw?';
   static String addDiposit = 'users/createTranstionss';
   static String getNotification = 'users/notificationCount?';
+  static String getLeaderBoardList = '/users/getLeaderboardEntry';
+  static String userGetGameBet = 'users/getGameBet';
+  static String usersUpdateGameBet = 'users/updateGameBet';
+  static String createGame = '/createGame';
+  static String getGameById = '/getGameById';
+  static String getGameByGameId = '/user/getGameById';
+  static String getAllGameListByType = '/getGameList';
+  static String getNotificationByUserId = 'users/notificationGetByUserId';
+  static String getAllGame = '/user/getAllGames';
+  static String getAllTransection = '/users/getTransactionsAndWithdrawals';
 }

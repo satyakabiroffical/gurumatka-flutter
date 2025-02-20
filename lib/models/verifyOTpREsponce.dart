@@ -53,9 +53,9 @@ class User {
   String? id;
   int? phoneNumber;
   String? otp;
-  int? walletBalance;
+  String? walletBalance;
   int? totalPeopleAdded;
-  int? totalCommission;
+  String? totalCommission;
   String? userType;
   bool? disable;
   DateTime? createdAt;
@@ -69,6 +69,7 @@ class User {
   String? userName;
   String? token;
   String? referenceCode;
+  int? depositeAmmount;
 
   User({
     this.id,
@@ -89,16 +90,17 @@ class User {
     this.gender,
     this.userName,
     this.token,
-    this.referenceCode
+    this.referenceCode,
+    this.depositeAmmount
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["_id"],
     phoneNumber: json["phoneNumber"],
     otp: json["otp"],
-    walletBalance: json["walletBalance"],
+    walletBalance: json["walletBalance"].toString(),
     totalPeopleAdded: json["totalPeopleAdded"],
-    totalCommission: json["totalCommission"],
+    totalCommission: json["totalCommission"].toString(),
     userType: json["userType"],
     disable: json["disable"],
     createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
@@ -112,6 +114,8 @@ class User {
     userName: json["userName"],
     token: json["token"],
     referenceCode: json["referenceCode"],
+    depositeAmmount: json["depositeAmmount"],
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -133,7 +137,8 @@ class User {
     "gender": gender,
     "userName": userName,
     "token": token,
-    'referenceCode':referenceCode
+    'referenceCode':referenceCode,
+    'depositeAmmount':depositeAmmount
   };
 }
 

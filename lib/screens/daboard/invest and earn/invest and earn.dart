@@ -78,7 +78,7 @@ class ShearAndEarnScreen extends StatelessWidget {
                 bottom: SC.from_width(21)
             ),
             child: CustomButton(
-              onTap: ()=>p.convertCommission(),
+              onTap: ()=>p.convertCommission(context),
                 title: "EXCHANGE"),
           ),
 
@@ -167,7 +167,7 @@ class ShearAndEarnScreen extends StatelessWidget {
                 ),
                 child: IconButton(onPressed: (){
                   Clipboard.setData(ClipboardData(text: p.user?.referenceCode??''));
-                  showMessage(context, "Code Copy",warning: false);
+                  showWarningMessage(context, "Code Copy",warning: false);
 
                 },
                     icon:Icon(Icons.copy,color: Colors.black,)),

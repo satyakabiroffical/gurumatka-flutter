@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
+import 'package:guru_matka_new/component/customFormater.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/models/getNotificationREsponce.dart';
 
 class NotificationTile extends StatelessWidget {
-  const NotificationTile({super.key});
+  final UserNotification? notification;
+  const NotificationTile({this.notification,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class NotificationTile extends StatelessWidget {
           Positioned(
             top: -SC.from_width(5),
           right: SC.from_width(5),
-              child:  Text("3h",style: TextStyle(
+              child:  Text("${CustomFormat().getFormateDuration(notification!.createdAt!)}",style: TextStyle(
               fontSize: SC.from_width(15),
               fontWeight: FontWeight.w600,
               color: AppConstant.themYellow
@@ -49,12 +52,26 @@ class NotificationTile extends StatelessWidget {
               ),
           
               //
-              Expanded(child:Text(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.',
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: SC.from_width(14),
-                ),)),
+              Expanded(child:Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+
+                  Text(
+                    '${notification?.title??'No Title'}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: SC.from_width(14),
+                    ),),
+
+                  //
+                  Text(
+                    '${notification?.description??'No Description'}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: SC.from_width(14),
+                    ),),
+                ],
+              )),
           
           
           

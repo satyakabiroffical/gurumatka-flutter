@@ -28,7 +28,7 @@ class ChartScreen extends StatelessWidget {
             children: [
 
               //
-              Text("Select Date to see the winners",
+              Text("Select Date To See The Winners",
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: SC.from_width(14)

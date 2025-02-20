@@ -48,7 +48,7 @@ class OtherApi{
   //
   Future<http.Response>getChat(String threadId,{int page = 1})async
   {
-    String uri = '${MyUrl.base}${MyUrl.getChat}=$threadId&page=$page';
+    String uri = '${MyUrl.base}${MyUrl.getChat}=$threadId&page=$page&limit=20';
 
     var toke = await UserPref().getHeader();
     var resp = await http.get(Uri.parse(uri),
@@ -96,7 +96,46 @@ class OtherApi{
   {
     var user = await UserPref().getUser();
 
-    String uri = '${MyUrl.base}${MyUrl.getNotification}?userId=${user?.id??''}';
+    String uri = '${MyUrl.base}${MyUrl.getNotification}userId=${user?.id??''}';
+
+    var toke = await UserPref().getHeader();
+
+    //
+    var resp = await http.get(
+      Uri.parse(uri),
+      headers: toke,
+    );
+
+    //
+    log('$uri\n${resp.statusCode}\n${resp.body}');
+    return resp;
+  }
+
+
+  Future<http.Response>getNotificationOfUser()async
+  {
+    var user = await UserPref().getUser();
+
+    String uri = '${MyUrl.base}${MyUrl.getNotificationByUserId}?userId=${user?.id??''}';
+
+    var toke = await UserPref().getHeader();
+
+    //
+    var resp = await http.get(
+      Uri.parse(uri),
+      headers: toke,
+    );
+
+    //
+    log('$uri\n${resp.statusCode}\n${resp.body}');
+    return resp;
+  }
+
+
+  Future<http.Response>getLeaderBoardList({String type='today'}) async
+  {
+
+    String uri = '${MyUrl.base}${MyUrl.getLeaderBoardList}?filter=$type';
 
     var toke = await UserPref().getHeader();
 

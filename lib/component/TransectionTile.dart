@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/models/altransection.dart';
 import 'package:guru_matka_new/models/withdrawHistoryModel.dart';
 
-class WithdrawHistoryTile extends StatelessWidget {
-  final WithdrawData? data;
-  const WithdrawHistoryTile({this.data,super.key});
+class TransactionTile extends StatelessWidget {
+  final AllTransection? data;
+  const TransactionTile({this.data,super.key});
 
 
   String formatTime(DateTime? dateTime) {
@@ -49,8 +50,8 @@ class WithdrawHistoryTile extends StatelessWidget {
             width: SC.from_width(51),
             height: SC.from_width(51),
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: AppConstant.buttonDecoration.gradient
+                shape: BoxShape.circle,
+                gradient: AppConstant.buttonDecoration.gradient
             ),
             child: Center(child: Image.asset("assets/icons/walletLogo.png",width: SC.from_width(23),)),
           ),
@@ -63,23 +64,23 @@ class WithdrawHistoryTile extends StatelessWidget {
               children: [
 
                 //
-              Text("Withdraw",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: SC.from_width(14)
-              ),),
+                Text(data?.transactionId==null?'Withdraw':'Deposit',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: SC.from_width(14)
+                  ),),
 
 
-              //
-              // Text("Winning",
-              // style: TextStyle(
-              //   fontWeight: FontWeight.w400,
-              //   fontSize: SC.from_width(12)
-              // ),),
-            
-            ],),
+                //
+                // Text("Winning",
+                //   style: TextStyle(
+                //       fontWeight: FontWeight.w400,
+                //       fontSize: SC.from_width(12)
+                //   ),),
+
+              ],),
           ),
 
           //
@@ -90,27 +91,25 @@ class WithdrawHistoryTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 //
-                Text("${data?.ammount??0} ₹",
-                maxLines: 1,
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: SC.from_width(16),
-                    color: (data?.status=="Rejected")?
-                    Colors.red:
-                    (data?.status=="Pending")?
-                    Colors.yellow:
-                    Colors.green
-                ),),
+                Text("${(data?.transactionId==null)?'-':'+'} ${data?.ammount??data?.amount} ₹",
+                  maxLines: 1,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: SC.from_width(16),
+                      color: (data?.transactionId==null)?
+                      Colors.yellow:
+                      Colors.green
+                  ),),
 
                 //
-                Text("${formatTime(data?.createdAt)}",
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: SC.from_width(12),
-                ),),
+                Text("${formatTime(data?.createdAt?.add(Duration(minutes: 330)))}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: SC.from_width(12),
+                  ),),
 
                 //
-                Text("${formatDate(data?.createdAt)}",
+                Text("${formatDate(data?.createdAt?.add(Duration(minutes: 330)))}",
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: SC.from_width(12),

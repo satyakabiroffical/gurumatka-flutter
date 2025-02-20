@@ -4,10 +4,12 @@ import 'package:guru_matka_new/Controllers/profileProvider.dart';
 import 'package:guru_matka_new/Controllers/walletController.dart';
 import 'package:guru_matka_new/Controllers/withdrawProvider.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
+import 'package:guru_matka_new/component/CustomButton.dart';
 import 'package:guru_matka_new/component/CustomFeild.dart';
 import 'package:guru_matka_new/component/bakckground.dart';
 import 'package:guru_matka_new/component/custom_button_2.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/actionButton.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%20file.dart';
 import 'package:guru_matka_new/screens/walletscreens/widrawHisteryScreen.dart';
 import 'package:provider/provider.dart';
@@ -283,35 +285,14 @@ class _WidrawScreenState extends State<WidrawScreen> {
                 ),
 
                 //
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                        width: SC.from_width(154),
-                        child: CustomButton2(
-                            onTap: (){
-                              if(formKey.currentState!.validate())
-                              {
-                                p.createWithdraw(context);
-                              }
-                            },
-                            color: Colors.black,title: "Withdraw")
-                    ),
-
-                    //
-                    SizedBox(
-                        width: SC.from_width(154),
-                        child: CustomButton2(
-                            onTap: () {
-
-                              RouteTo(context, child: (p0, p1) => WithdrawHistoryScreen(),);
-
-                            },
-                            title: "Withdraw History")
-                    ),
-
-                  ],
-                )
+                MyactionButton(
+                    action: () async {
+                      if(formKey.currentState!.validate())
+                      {
+                        await p.createWithdraw(context);
+                      }
+                    },
+                    lable: "Withdraw")
               ],
             ),),
           ),

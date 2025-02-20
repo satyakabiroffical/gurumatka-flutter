@@ -2,8 +2,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:guru_matka_new/Controllers/allTransectionprovider.dart';
 import 'package:guru_matka_new/Controllers/auth_controller.dart';
+import 'package:guru_matka_new/Controllers/game%20provider.dart';
 import 'package:guru_matka_new/Controllers/homeProvider.dart';
+import 'package:guru_matka_new/Controllers/leaderBoardProvider.dart';
 import 'package:guru_matka_new/Controllers/profileProvider.dart';
 import 'package:guru_matka_new/Controllers/transection%20provider.dart';
 import 'package:guru_matka_new/Controllers/walletController.dart';
@@ -24,9 +27,12 @@ void main()
     ChangeNotifierProvider(create: (context) => HomeProvider(),),
     ChangeNotifierProvider(create: (context) => ProfileProvider(),),
     ChangeNotifierProvider(create: (context) => WalletProvider(),),
-    ChangeNotifierProvider(create: (context) => ChatProvider(),),
+    ChangeNotifierProvider(create: (context) => SocketProvider(),),
     ChangeNotifierProvider(create: (context) => TransectionProvider(),),
     ChangeNotifierProvider(create: (context) => WithdrawProvider(),),
+    ChangeNotifierProvider(create: (context) => LeaderBoardProvider(),),
+    ChangeNotifierProvider(create: (context) => AllTransectionProvider(),),
+    ChangeNotifierProvider(create: (context) => GameProvider(),),
   ],
   child: MyApp(),));
 }
@@ -41,6 +47,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SC.getScreen(context);
     return MaterialApp(
+
+      debugShowCheckedModeBanner: false,
 
       theme: ThemeData(
 
@@ -89,6 +97,9 @@ class MyApp extends StatelessWidget {
                   color: Colors.black
               )
           ),
+
+
+
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(

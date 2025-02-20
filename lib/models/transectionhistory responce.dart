@@ -44,7 +44,7 @@ class TransectionHistoryResponce {
 
 class Transaction {
   String? id;
-  String? amount;
+  int? amount;
   String? transactionId;
   String? ss;
   String? status;

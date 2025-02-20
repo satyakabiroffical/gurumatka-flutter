@@ -8,6 +8,7 @@ import 'package:guru_matka_new/component/CustomButton.dart';
 import 'package:guru_matka_new/component/CustomSlideAnimation.dart';
 import 'package:guru_matka_new/component/bakckground.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/actionButton.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/animated%20dilog.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%20file.dart';
 import 'package:guru_matka_new/screens/daboard/navigation%20screens.dart';
@@ -133,17 +134,28 @@ class OtpScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: SC.from_width(34),),
+                Center(
+                  child: MySlideTr(
+                    animation: animation,
+                    curve: Curves.easeOut,
+                    startPosition: Offset(1, 0),
+                    child: AuthField(
+                      controller: p.refCodeController,
+                      hintText: 'Reference Codes',
+                    ),
+                  ),
+                ),
+                SizedBox(height: SC.from_width(34),),
 
                 //
                 MySlideTr(
                   animation: animation,
                   curve: Curves.easeIn,
-                  child: CustomButton(
-                      onTap: (){
-                        p.verifyOtp(context);
-                        // RouteTo(context, child: (p0, p1) => NavigationScreen(),);
-                      },
-                      title: "Submit Now"
+                  child: Center(
+                    child: MyactionButton(
+                        action: ()=> p.verifyOtp(context),
+                        lable: "Submit Now"
+                    ),
                   ),
                 ),
 

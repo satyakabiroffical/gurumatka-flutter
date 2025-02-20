@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:guru_matka_new/Controllers/profileProvider.dart';
@@ -13,6 +14,9 @@ import 'package:guru_matka_new/apiService/sred_predrence_db.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/CustomButton.dart';
+import 'package:guru_matka_new/component/customFormater.dart';
+import 'package:guru_matka_new/component/serverErrorDailog.dart';
+import 'package:guru_matka_new/component/shoeMessage.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
 import 'package:guru_matka_new/models/app_info_responce.dart';
 import 'package:guru_matka_new/models/get_conpany_model.dart';
@@ -21,6 +25,7 @@ import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%2
 import 'package:guru_matka_new/screens/daboard/home/homeScreen.dart';
 import 'package:guru_matka_new/screens/daboard/navigation%20screens.dart';
 import 'package:guru_matka_new/screens/onBording%20Screens/Otp.dart';
+import 'package:guru_matka_new/screens/onBording%20Screens/login.dart';
 import 'package:provider/provider.dart';
 
 class AuthProvider with ChangeNotifier
@@ -31,12 +36,15 @@ class AuthProvider with ChangeNotifier
   bool _warnningEnable = true;
   TextEditingController _numberController = TextEditingController();
   TextEditingController _otpController = TextEditingController();
+  TextEditingController _refCodeController = TextEditingController();
 
 
   TextEditingController get numberController =>_numberController;
   TextEditingController get otpController =>_otpController;
+  TextEditingController get refCodeController =>_refCodeController;
   bool get sending => _sending;
   GetConpenyResponce? get company =>_company;
+
 
 
   Future<bool> isLoggedIn() async
@@ -61,6 +69,11 @@ class AuthProvider with ChangeNotifier
             break;
 
 
+          case 500:
+            serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
+            break;
+
+
           default :
             log('${resp.statusCode}\n${resp.body}');
             break;
@@ -74,7 +87,9 @@ class AuthProvider with ChangeNotifier
   {
     if(_otpController.text.length==4)
       {
-        var resp =  await _auth.verifyOtp(_numberController.text.trim(), _otpController.text.trim());
+        var resp =  await _auth.verifyOtp(_numberController.text.trim(), _otpController.text.trim(),
+        refCode: (_refCodeController.text.isNotEmpty)?_refCodeController.text:null
+        );
 
         log('responce from otp verfy api ${resp.statusCode} ${resp.body}');
 
@@ -84,11 +99,25 @@ class AuthProvider with ChangeNotifier
             var d = jsonDecode(resp.body);
             var _data = OtpVerifyResponce.fromJson(d);
              await UserPref().saveUser(_data.data!.user!);
-             await Provider.of<ProfileProvider>(context,listen: false).getUser();
+             await Provider.of<ProfileProvider>(context,listen: false).getUser(context);
+             _numberController.clear();
+             _otpController.clear();
             RouteTo(context, child: (p0, p1) => NavigationScreen());
             break;
 
+          case 400:
+            var _d = jsonDecode(resp.body);
+            showWarningMessage(context,'${_d['message']}');
+            break;
 
+
+            //
+          case 500:
+            serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
+            break;
+
+
+            //
           default :
             log('${resp.statusCode}\n${resp.body}');
             break;
@@ -128,83 +157,96 @@ showMessage(BuildContext context) async
             builder: (BuildContext context) {
               return WillPopScope(
                 onWillPop: () async => false, // Disable back button closing
-                child: AlertDialog(
+                child: Center(
+                  child: Container(
 
-                  contentPadding: EdgeInsets.zero,
-                  insetPadding: EdgeInsets.symmetric(horizontal: 20),
+                    margin: EdgeInsets.all(25),
+                    padding: EdgeInsets.symmetric(vertical: 10),
 
-                  title: Center(
-                      child: Text('Hello, '
-                          '${Provider.of<ProfileProvider>(context,listen: false).user?.userName}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: SC.from_width(16),
-                          ))),
-                  content: SingleChildScrollView(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(10)
 
-                    //
+                    ),
+
+
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-
+                        
+                        //
+                        Center(
+                            child: Text(
+                                '${CustomFormat().getDayTime()} ${Provider.of<ProfileProvider>(context,listen: false).user?.userName??''}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: SC.from_width(16),
+                                ))),
                         SizedBox(height: SC.from_width(10),),
+                        
+                        //
 
-                        Container(color: Colors.grey.shade900,
+                        Container(
+                          color: Colors.grey.shade900,
                           padding: EdgeInsets.all(10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-
-                            children: [
-
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child:Text('${_data.data?.title}', style: TextStyle(fontWeight: FontWeight.bold)),
-                              ),
-                              SizedBox(height: SC.from_width(10),),
-
-
-                              //
-                              HtmlWidget(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: SC.from_width(14),
+                          height: SC.from_width(300),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                            
+                              children: [
+                            
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child:Text('${_data.data?.title}', style: TextStyle(fontWeight: FontWeight.bold)),
                                 ),
-                                "${_data.data?.description}",
-                              ),
-                              SizedBox(height:SC.from_width(15)),
-
-                              //
-                              Text("हेल्पलाइन : ${_data.data?.contactNumber}",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: SC.from_width(14),
-                                ),),
-
-
-                              //
-                              Text("व्हाट्सऐप : ${_data.data?.whatsaapContact}",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: SC.from_width(14),
-                                ),),
-                              SizedBox(height:SC.from_width(15)),
-
-
-                              //
-                              Text("डाउनलोड करे:",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: SC.from_width(14),
-                                ),),
-
-
-                              Text("${_data.data?.downloadLink}",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: SC.from_width(14),
-                                ),),
-                              SizedBox(height: SC.from_width(15),),
-
-                            ],
+                                SizedBox(height: SC.from_width(10),),
+                            
+                            
+                                //
+                                HtmlWidget(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: SC.from_width(14),
+                                  ),
+                                  "${_data.data?.description}",
+                                ),
+                                SizedBox(height:SC.from_width(15)),
+                            
+                                //
+                                Text("हेल्पलाइन : ${_data.data?.contactNumber}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: SC.from_width(14),
+                                  ),),
+                            
+                            
+                                //
+                                Text("व्हाट्सऐप : ${_data.data?.whatsaapContact}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: SC.from_width(14),
+                                  ),),
+                                SizedBox(height:SC.from_width(15)),
+                            
+                            
+                                //
+                                Text("डाउनलोड करे:",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: SC.from_width(14),
+                                  ),),
+                            
+                            
+                                Text("${_data.data?.downloadLink}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: SC.from_width(14),
+                                  ),),
+                                SizedBox(height: SC.from_width(15),),
+                            
+                              ],
+                            ),
                           ),),
                         SizedBox(height: SC.from_width(10),),
 
@@ -215,7 +257,7 @@ showMessage(BuildContext context) async
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           child: CustomButton(
                             onTap: () {
-                              _warnningEnable =false;
+                              // _warnningEnable =false;
                               Navigator.of(context).pop(); // Close dialog
                             },
                             title: "Close",
@@ -249,13 +291,18 @@ showMessage(BuildContext context) async
                         SizedBox(height: SC.from_width(7),),
 
                       ],
-                    ), // Render HTML content
-                  ),
+                    ),
 
+                  ),
                 ),
               );
             },
           );
+          break;
+
+
+        case 500:
+          serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
           break;
       }
 
@@ -264,6 +311,26 @@ showMessage(BuildContext context) async
 
 
     }
+}
+
+
+//
+logOut(BuildContext context)async
+{
+  var resp = await _auth.logOut();
+
+  switch(resp.statusCode)
+      {
+        //
+    case 200:
+      UserPref().clearDb();
+      ReplaceAll(context, child: (p0, p1) => LoginScreen(animation: p0),);
+      break;
+
+      //
+    default:
+      break;
+  }
 }
 
 }

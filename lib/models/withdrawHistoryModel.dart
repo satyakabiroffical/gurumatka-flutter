@@ -43,7 +43,7 @@ class WithdrawHistoryResponce {
 class WithdrawData {
   dynamic userId;
   String? id;
-  String? ammount;
+  int? ammount;
   String? bankName;
   String? bankAccountNumber;
   String? name;

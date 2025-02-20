@@ -94,4 +94,23 @@ class TransactionApi
     return resp;
   }
 
+
+
+  //
+  Future<http.Response> getAllTransectionHistory({int page=1}) async {
+    var user =  await UserPref().getUser();
+    String uri = '${MyUrl.base}${MyUrl.getAllTransection}?page=$page&userId=${user?.id??''}';
+    var toke =  await UserPref().getHeader();
+
+    var resp = await http.get(Uri.parse(uri),
+        headers:toke);
+
+    log("${uri}\n${resp.statusCode}\n${resp.body}");
+    return resp;
+  }
+
+
+
+
+
 }

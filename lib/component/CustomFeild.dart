@@ -34,6 +34,21 @@ class CustomFeild extends StatelessWidget {
           inputFormatters: formatters,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10),
+
+
+
+              focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Colors.red
+                  )
+              ),
+
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.red
+                )
+              ),
+
               hintText: hintText),
         )
       ],

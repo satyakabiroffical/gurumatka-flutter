@@ -13,6 +13,7 @@ import 'package:guru_matka_new/component/CustomButton.dart';
 import 'package:guru_matka_new/component/bakckground.dart';
 import 'package:guru_matka_new/component/shoeMessage.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/actionButton.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%20file.dart';
 import 'package:guru_matka_new/screens/walletscreens/walletScreenWinning.dart';
 import 'package:provider/provider.dart';
@@ -110,7 +111,7 @@ class _WalletScreenAddState extends State<WalletScreenAdd> {
 
                               IconButton(
                                   onPressed: () {
-
+                                    Clipboard.setData(ClipboardData(text:'${v.walletData?.data?.upiId}'));
                                   },
                                   icon: Icon(
                                     Icons.copy,
@@ -213,16 +214,16 @@ class _WalletScreenAddState extends State<WalletScreenAdd> {
                       height: SC.from_width(25),
                     ),
 
-                    CustomButton(
-                        onTap: () {
+                    MyactionButton(
+                        action: ()async{
                           if(p.screenShot==null){
-                            showMessage(context, "Upload Screen Shot");
+                            showWarningMessage(context, "Upload Screen Shot");
                           }
                           if (formKey.currentState?.validate() == true&&p.screenShot!=null) {
-                            p.addAmmount(context);
+                           await p.addAmmount(context);
                           }
                         },
-                        title: "Submit"),
+                        lable: "Submit"),
 
                     if(kDebugMode)
                       ElevatedButton(onPressed: (){

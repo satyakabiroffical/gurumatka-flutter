@@ -4,10 +4,13 @@ import 'dart:convert';
 
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:guru_matka_new/apiService/transectionApi.dart';
 import 'package:guru_matka_new/component/shoeMessage.dart';
 import 'package:guru_matka_new/models/transectionhistory%20responce.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../component/serverErrorDailog.dart';
 
 class TransectionProvider with ChangeNotifier
 {
@@ -44,7 +47,7 @@ class TransectionProvider with ChangeNotifier
 
 
   //
-  getTransection() async
+  getTransection(BuildContext context) async
   {
 
     _loading = true;
@@ -67,6 +70,10 @@ class TransectionProvider with ChangeNotifier
           }
         break;
 
+      case 500:
+        serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
+        break;
+
         //
         default :
         break;
@@ -76,7 +83,7 @@ class TransectionProvider with ChangeNotifier
     notifyListeners();
   }
 
-  loadMore() async
+  loadMore(BuildContext context) async
   {
 
       notifyListeners();
@@ -100,6 +107,10 @@ class TransectionProvider with ChangeNotifier
             },);
             _page++;
           }
+          break;
+
+        case 500:
+          serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
           break;
 
       //
@@ -171,11 +182,15 @@ class TransectionProvider with ChangeNotifier
         var _d2= jsonDecode(_d);
 
         Navigator.pop(context);
-
-        showMessage(context, "Amount added Successful");
+        clearFields();
+        showWarningMessage(context, "Transection Request Successful",warning: false);
 
         notifyListeners();
 
+        break;
+
+      case 500:
+        serverErrorWidget(context, 'server Error',title: kDebugMode?"Frome get Home APi":null);
         break;
     }
 

@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:guru_matka_new/apiService/LogInAPi.dart';
 import 'package:guru_matka_new/apiService/otherApi.dart';
 import 'package:guru_matka_new/apiService/sred_predrence_db.dart';
+import 'package:guru_matka_new/component/serverErrorDailog.dart';
 import 'package:guru_matka_new/models/barcodeResompce.dart';
 import 'package:guru_matka_new/models/verifyOTpREsponce.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,7 +36,8 @@ class ProfileProvider with ChangeNotifier
   User? get user => _user;
 
 
-  getUser() async
+
+  getUser(BuildContext context) async
   {
     var resp = await authApi.getUserProfile();
     log("responce from get profile api \n${resp.statusCode}\n${resp.body}");
@@ -46,6 +49,12 @@ class ProfileProvider with ChangeNotifier
         var _d = jsonDecode(resp.body);
         var _data = User.fromJson(_d['data']);
         _user = _data;
+        notifyListeners();
+        break;
+
+        //
+      case 500:
+        serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
         break;
 
         //
@@ -55,7 +64,7 @@ class ProfileProvider with ChangeNotifier
   }
 
 
-  convertCommission() async
+  convertCommission(BuildContext context) async
   {
     var resp = await OtherApi().exchangeCommission();
 
@@ -66,6 +75,11 @@ class ProfileProvider with ChangeNotifier
         var _d = jsonDecode(resp.body);
         var _data = User.fromJson(_d["data"]);
         await updateUserData(_data);
+        break;
+
+        //
+      case 500:
+        serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
         break;
 
         //
@@ -182,6 +196,11 @@ class ProfileProvider with ChangeNotifier
         updateUserData(_data);
         clearUpdate();
         Navigator.pop(context);
+        break;
+
+        //
+      case 500:
+        serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
         break;
 
     //

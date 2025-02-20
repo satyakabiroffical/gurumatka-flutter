@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/appIcons.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/models/gameModel.dart';
 
 class MyMatchTileClosed extends StatelessWidget {
-  const MyMatchTileClosed({super.key});
+  final Game? game;
+  final bool? noCloseGame;
+  const MyMatchTileClosed({this.noCloseGame,this.game,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class MyMatchTileClosed extends StatelessWidget {
           )
       ),
 
-      child:Row(
+      child:(noCloseGame==true)?Center(child: Text("No Close Is Game"),):Row(
         children: [
           Container(
             height: SC.from_width(67),
@@ -60,7 +63,7 @@ class MyMatchTileClosed extends StatelessWidget {
               children: [
 
                 //
-                Text("Gali",
+                Text("${game?.name??'Game'}",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -69,11 +72,11 @@ class MyMatchTileClosed extends StatelessWidget {
                   ),),
 
                 //
-                Text("3444 people are playing",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: SC.from_width(12)
-                  ),),
+                // Text("3444 people are playing",
+                //   style: TextStyle(
+                //       fontWeight: FontWeight.w400,
+                //       fontSize: SC.from_width(12)
+                //   ),),
 
                 //
                 Container(

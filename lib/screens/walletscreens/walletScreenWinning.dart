@@ -107,7 +107,7 @@ class WalletScreenMain extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
 
-                      RateText(data: '7'),
+                      RateText(data: '${p.user?.depositeAmmount??0}'),
 
                       Text("Deposit",style: TextStyle(fontWeight: FontWeight.w400,fontSize: SC.from_width(14)),)
 
@@ -170,7 +170,7 @@ class WalletScreenMain extends StatelessWidget {
 
                   SizedBox(
                       width: SC.from_width(149),
-                      child: CustomButton2(
+                      child: CustomButton(
                         onTap: (){
                           RouteTo(context, child: (p0, p1) =>WidrawScreen(),);
                         },

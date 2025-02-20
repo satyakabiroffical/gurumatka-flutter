@@ -23,13 +23,13 @@ class _WithdrawHistoryScreenState extends State<WithdrawHistoryScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<WithdrawProvider>(context, listen: false).getTransection();
+    Provider.of<WithdrawProvider>(context, listen: false).getTransection(context);
 
     _controller.addListener(
             (){
           if(_controller.position.pixels==_controller.position.maxScrollExtent)
           {
-            Provider.of<WithdrawProvider>(context,listen: false).loadMore();
+            Provider.of<WithdrawProvider>(context,listen: false).loadMore(context);
           }
         }
     );
@@ -53,7 +53,7 @@ class _WithdrawHistoryScreenState extends State<WithdrawHistoryScreen> {
 
           //
           floatingActionButton: kDebugMode?FloatingActionButton(onPressed: (){
-            Provider.of<WithdrawProvider>(context,listen: false).loadMore();
+            Provider.of<WithdrawProvider>(context,listen: false).loadMore(context);
           }):null,
           appBar: AppBar(
             title: Text('Withdraw History'),
@@ -102,7 +102,7 @@ class _WithdrawHistoryScreenState extends State<WithdrawHistoryScreen> {
                   itemCount: p.filterTransactions.length,
                   //
                   itemBuilder: (context, i) => Padding(
-                    padding: EdgeInsets.only(bottom: SC.from_width(22)),
+                    padding: EdgeInsets.only(left :20,right: 20,top: SC.from_width(15)),
 
                     //
                     child: WithdrawHistoryTile(data: p.filterTransactions[i]),

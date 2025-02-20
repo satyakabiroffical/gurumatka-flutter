@@ -4,7 +4,9 @@ import 'dart:convert';
 
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:guru_matka_new/apiService/transectionApi.dart';
+import 'package:guru_matka_new/component/serverErrorDailog.dart';
 import 'package:guru_matka_new/component/shoeMessage.dart';
 import 'package:guru_matka_new/models/transectionhistory%20responce.dart';
 import 'package:guru_matka_new/models/withdrawHistoryModel.dart';
@@ -49,7 +51,7 @@ class WithdrawProvider with ChangeNotifier
 
 
   //
-  getTransection() async
+  getTransection(BuildContext context) async
   {
 
     _loading = true;
@@ -72,6 +74,11 @@ class WithdrawProvider with ChangeNotifier
         }
         break;
 
+        //
+      case 500:
+        serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
+        break;
+
     //
       default :
         break;
@@ -81,7 +88,7 @@ class WithdrawProvider with ChangeNotifier
     notifyListeners();
   }
 
-  loadMore() async
+  loadMore(BuildContext context) async
   {
 
     notifyListeners();
@@ -105,6 +112,11 @@ class WithdrawProvider with ChangeNotifier
           },);
           _page++;
         }
+        break;
+
+        //
+      case 500:
+        serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
         break;
 
     //
@@ -175,10 +187,15 @@ class WithdrawProvider with ChangeNotifier
         {
           _filterTransactions.add(_data);
         }
-        showMessage(context, "Withdraw request has sent",warning: false);
+        showWarningMessage(context, "Withdraw request has sent",warning: false);
         Navigator.pop(context);
           clearTextControllers();
 
+        break;
+
+
+      case 500:
+        serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
         break;
     }
   }

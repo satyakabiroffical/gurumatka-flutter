@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
 
-showMessage(BuildContext context,String message,{bool warning = true})
+showWarningMessage(BuildContext context,String message,{bool warning = true})
 {
   ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

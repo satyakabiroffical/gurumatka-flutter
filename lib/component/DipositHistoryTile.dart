@@ -73,11 +73,11 @@ class DipositHistoryTile extends StatelessWidget {
 
 
                 //
-                Text("Signup Bonus",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: SC.from_width(12)
-                  ),),
+                // Text("Signup Bonus",
+                //   style: TextStyle(
+                //       fontWeight: FontWeight.w400,
+                //       fontSize: SC.from_width(12)
+                //   ),),
 
               ],),
           ),

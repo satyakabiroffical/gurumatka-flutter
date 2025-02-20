@@ -35,7 +35,7 @@ class AuthApi
 
 
   //
-  Future<http.Response> verifyOtp(String number,String otp) async
+  Future<http.Response> verifyOtp(String number,String otp,{String? refCode}) async
   {
 
     String uri = '${MyUrl.base}${MyUrl.verifyOtp}';
@@ -44,7 +44,8 @@ class AuthApi
         headers: {'Content-Type': 'application/json'},
         body:jsonEncode({
           'phoneNumber':number,
-          'otp':otp
+          'otp':otp,
+          'referenceCode':refCode
         }));
 
     return resp;
@@ -121,11 +122,13 @@ class AuthApi
   }
 
 
-  logOut() async {
+  Future<http.Response>logOut() async {
     String uri = '${MyUrl.base}${MyUrl.logOut}';
     var toke =  await UserPref().getHeader();
     var resp = await http.post(Uri.parse(uri),
         headers:toke);
+
+    log("$uri\n${resp.statusCode}\n${resp.body}");
 
     return resp;
   }
@@ -147,6 +150,8 @@ class AuthApi
 
     return resp;
   }
+
+
 
 
 

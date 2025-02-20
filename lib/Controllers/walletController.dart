@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:guru_matka_new/apiService/otherApi.dart';
 import 'package:guru_matka_new/models/barcodeResompce.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../component/serverErrorDailog.dart';
 
 class WalletProvider with ChangeNotifier
 {
@@ -40,6 +43,11 @@ class WalletProvider with ChangeNotifier
 
       case 401:
         log("TokenExpire");
+        break;
+
+        //
+      case 500:
+        serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
         break;
 
       default :

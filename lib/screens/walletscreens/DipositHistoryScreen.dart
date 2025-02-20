@@ -25,12 +25,12 @@ class _DipositHistoryScreenState extends State<DipositHistoryScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<TransectionProvider>(context,listen: false).getTransection();
+    Provider.of<TransectionProvider>(context,listen: false).getTransection(context);
     _controller.addListener(
         (){
           if(_controller.position.pixels==_controller.position.maxScrollExtent)
           {
-            Provider.of<TransectionProvider>(context,listen: false).loadMore();
+            Provider.of<TransectionProvider>(context,listen: false).loadMore(context);
           }
         }
     );
@@ -56,7 +56,7 @@ class _DipositHistoryScreenState extends State<DipositHistoryScreen> {
 
         //
         floatingActionButton: kDebugMode?FloatingActionButton(onPressed: (){
-          Provider.of<TransectionProvider>(context,listen: false).getTransection();
+          Provider.of<TransectionProvider>(context,listen: false).getTransection(context);
         }):null,
 
 
@@ -93,14 +93,14 @@ class _DipositHistoryScreenState extends State<DipositHistoryScreen> {
 
               //
               itemBuilder: (context, index) => Padding(
-                padding: EdgeInsets.only(bottom: SC.from_width(22)),
+                padding: EdgeInsets.only(top: SC.from_width(15)),
 
                 //
                 child: DipositHistoryTile(
                   transaction: p.filterTransactions[index],
                 ),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
 
             );
           },
