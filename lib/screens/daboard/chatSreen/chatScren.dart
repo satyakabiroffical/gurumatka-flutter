@@ -82,19 +82,20 @@ class _ChatScreenState extends State<ChatScreen> {
                 //
                 Expanded(child: p.message.length==0?
             Center(child: Image.asset(AIcon.chatAppBarBgImage)):
-                RefreshIndicator(
-
-
-
-                  onRefresh: ()async{
-                    Provider.of<SocketProvider>(context,listen: false).loadMoreChat(context);
-                  },
-                  child: ListView.builder(
-                    controller: scrollController,
-                    padding: EdgeInsets.only(top: SC.from_width(40)),
-                    reverse: true,
-                    itemCount: p.message.length,
-                    itemBuilder: (context, index) => MyChatBubble(message: p.message[index]),
+                SafeArea(
+                  child: RefreshIndicator(
+                  
+                  
+                    onRefresh: ()async{
+                      Provider.of<SocketProvider>(context,listen: false).loadMoreChat(context);
+                    },
+                    child: ListView.builder(
+                      controller: scrollController,
+                      padding: EdgeInsets.only(top: SC.from_width(40)),
+                      reverse: true,
+                      itemCount: p.message.length,
+                      itemBuilder: (context, index) => MyChatBubble(message: p.message[index]),
+                    ),
                   ),
                 )),
 

@@ -1,7 +1,9 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'package:guru_matka_new/models/joidiModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'api_path.dart';
 import 'sred_predrence_db.dart';
 
@@ -26,6 +28,8 @@ class GamesAPi
     log('$uri\n${resp.statusCode}\n${resp.body}');
     return resp;
   }
+
+
 
 
 
@@ -66,31 +70,149 @@ class GamesAPi
   }
 
   //
-  Future<http.Response>crateGame() async
+  Future<http.Response>crateGameForJodi({
+    required List<JodiModel>? jodiList,
+    required int totalAmount,
+    required String gameId,
+}) async
   {
 
-    var user = UserPref().getUser();
+    var user =  await UserPref().getUser();
     String uri = '${MyUrl.base}${MyUrl.createGame}';
+
+
     var _data = {
-      "userId": "67af24f9a0865c4945266a9a",
+      "userId": user?.id??'',
+      // Choose anyone Type  - JODI, HARUF, CROSSING
+      "gameType": "JODI",
+      "battingGameID":gameId,
+      // change this below field if you would choose another type of game
+      "jodi":jodiList?.map((e) =>e.toJson(),).toList()??[],
+      "jodiTotalAmount": totalAmount
+
+    };
+
+    Logger().t(_data);
+
+    var toke = await UserPref().getHeader();
+
+    //
+    var resp = await http.post(
+      Uri.parse(uri),
+      body: jsonEncode(_data),
+      headers: toke,
+    );
+
+    //
+    log('$uri\n${resp.statusCode}\n${resp.body}');
+    return resp;
+  }
+
+
+
+  //
+
+  Future<http.Response>crateGameForHaruf({
+    required Map<String,String?> harufData,
+    required int totalAmount,
+    required String gameId,
+  }) async
+  {
+
+    var user =  await UserPref().getUser();
+    String uri = '${MyUrl.base}${MyUrl.createGame}';
+
+
+    Map<String,List<Map>> _selectio ={
+
+      "andarGame":[],
+      'baharGame':[],
+
+    };
+
+    harufData.forEach((key, value) {
+
+      //
+      if(key.startsWith("A")&&value!=null)
+        {
+          _selectio['andarGame']!.add({
+            "game":key,
+            "harufAmount":int.parse((value.isEmpty?'0':value))
+          });
+        }
+      else if(key.startsWith("B")&&value!=null)
+        {
+
+          _selectio['baharGame']!.add({
+            "game":key,
+            "harufAmount":int.parse((value.isEmpty?'0':value))
+          });
+
+        }
+
+      //
+
+
+    },);
+
+
+    var _data = {
+      "userId": user?.id??'',
+      // Choose anyone Type  - JODI, HARUF, CROSSING
+      "gameType": "HARUF",
+      "battingGameID":gameId,
+      'haruf':[_selectio],
+      // change this below field if you would choose another type of game
+      "harufTotalAmount": totalAmount
+    };
+
+
+    Logger().t(_data);
+
+    var toke = await UserPref().getHeader();
+
+    //
+    var resp = await http.post(
+      Uri.parse(uri),
+      body: jsonEncode(_data),
+      headers: toke,
+    );
+
+    //
+    log('$uri\n${resp.statusCode}\n${resp.body}');
+    return resp;
+  }
+
+  //
+  Future<http.Response>crateGameForCrossing({
+    required List<int>? crossingNumberList,
+    required int amount,
+    required int totalAmount,
+    required String gameId,
+  }) async
+  {
+
+    var user =  await UserPref().getUser();
+    String uri = '${MyUrl.base}${MyUrl.createGame}';
+
+
+    var _data = {
+      "userId": user?.id??'',
       // Choose anyone Type  - JODI, HARUF, CROSSING
       "gameType": "CROSSING",
-      "battingGameID":"67b31e8cf1109eb51fba1a8e",
+      "battingGameID":gameId,
       // change this below field if you would choose another type of game
-      "Crossing": [
-        {
-          "crossingNum": 2,
-          "crossingAmount": 500
-        },
-        {
-          "crossingNum": 5,
-          "crossingAmount": 200
-        }
-      ],
-      "CrossingTotalAmount": {
-        "totalAmount": 700
-      }
+      "Crossing":crossingNumberList?.map((e) =>{
+        "crossingNum":e,
+        'crossingAmount':amount
+      },).toList()??[],
+      "CrossingTotalAmount": totalAmount
     };
+
+
+
+
+    Logger().t(_data);
 
     var toke = await UserPref().getHeader();
 
@@ -127,6 +249,8 @@ class GamesAPi
   }
 
 
+
+  //Not Used
   Future<http.Response>getGameListByType(String gameType) async
   {
 
@@ -146,10 +270,11 @@ class GamesAPi
   }
 
 
+  //Not Used
   Future<http.Response>getAllGames() async
   {
 
-    String uri = '${MyUrl.base}${MyUrl.getAllGame}?disable=false';
+    String uri = '${MyUrl.base}${MyUrl.getAllGame}';
 
     var toke = await UserPref().getHeader();
 

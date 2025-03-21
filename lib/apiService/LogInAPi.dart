@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:guru_matka_new/apiService/api_path.dart';
 import 'package:guru_matka_new/apiService/sred_predrence_db.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 
 class AuthApi
 {
@@ -35,17 +36,19 @@ class AuthApi
 
 
   //
-  Future<http.Response> verifyOtp(String number,String otp,{String? refCode}) async
+  Future<http.Response> verifyOtp(String number,String otp,{String? refCode,String? fcmToken}) async
   {
 
     String uri = '${MyUrl.base}${MyUrl.verifyOtp}';
 
+    Logger().i("THis is Fcm ${fcmToken}");
     var resp = await http.post(Uri.parse(uri),
         headers: {'Content-Type': 'application/json'},
         body:jsonEncode({
           'phoneNumber':number,
           'otp':otp,
-          'referenceCode':refCode
+          'referenceCode':refCode,
+          'fcmToken':fcmToken,
         }));
 
     return resp;
@@ -54,8 +57,8 @@ class AuthApi
 
   Future<http.Response> getUserProfile() async
   {
-
-    String uri = '${MyUrl.base}${MyUrl.getUserProfile}';
+    var user = await UserPref().getUser();
+    String uri = '${MyUrl.base}${MyUrl.getUserProfile}?userId=${user?.id}';
     var toke =  await UserPref().getHeader();
     var resp = await http.get(Uri.parse(uri),
     headers:toke);

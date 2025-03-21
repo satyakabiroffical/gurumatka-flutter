@@ -33,4 +33,7 @@ class MyUrl
   static String getNotificationByUserId = 'users/notificationGetByUserId';
   static String getAllGame = '/user/getAllGames';
   static String getAllTransection = '/users/getTransactionsAndWithdrawals';
+  static String getResult = '/users/results';
+  static String getBattingByUserId = 'getAllGameByuserId';
+
 }

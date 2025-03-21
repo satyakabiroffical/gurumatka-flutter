@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:guru_matka_new/Controllers/profileProvider.dart';
 import 'package:guru_matka_new/apiService/api_path.dart';
+import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/CustomButton.dart';
 import 'package:guru_matka_new/component/bakckground.dart';
 import 'package:guru_matka_new/component/profilfield.dart';
@@ -51,17 +52,38 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             SizedBox(height: SC.from_width(20),),
 
             //avtar
-            InkWell(
-              onTap: ()=>p.selectProfileImage(context),
-              child: ProfieleAvtar(
-                redias: SC.from_width(52),
+            Center(
+              child: SizedBox(
+                height: SC.from_width(104),
+                width: SC.from_width(104),
+                child: Stack(
+                  children: [
+                    
 
-                //
-                child: (p.selectedImage!=null)?
-                Image.file(File('${p.selectedImage}',),fit: BoxFit.cover,):
-                Image.network("${MyUrl.bucketUrl}${p.user?.image}", fit: BoxFit.cover,),
+                    ProfieleAvtar(
+                      redias: SC.from_width(52),
 
-                //
+                      //
+                      child: (p.selectedImage!=null)?
+                      Image.file(File('${p.selectedImage}',),fit: BoxFit.cover,):
+                      Image.network("${MyUrl.bucketUrl}${p.user?.image}", fit: BoxFit.cover,),
+
+                      //
+                    ),
+
+                    Positioned(
+                      bottom: SC.from_width(5),
+                      right: SC.from_width(5),
+                      child: InkWell(onTap: ()=>p.selectProfileImage(context), child: Container(
+                        padding: EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3),
+                          color: AppConstant.themYellow
+                        ),
+                          child: Icon(Icons.edit,color: Colors.black,))),
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: SC.from_width(24),),

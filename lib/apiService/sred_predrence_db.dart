@@ -57,4 +57,29 @@ class UserPref
     db.clear();
   }
 
+  Future<bool> isAppFirstStart() async
+  {
+    var db = await SharedPreferences.getInstance();
+    bool firststart  = db.getBool("firstStart")??true;
+    if(firststart)
+      {
+        await db.setBool('firstStart', false);
+      }
+    return firststart;
+  }
+
+
+  saveNotificationStats(bool s)async
+  {
+    var db = await SharedPreferences.getInstance();
+    db.setBool("notification",s);
+  }
+
+  Future<bool?> getNotificationStats() async
+  {
+    var db = await SharedPreferences.getInstance();
+    bool? p = db.getBool("notification");
+    return p;
+  }
+
 }

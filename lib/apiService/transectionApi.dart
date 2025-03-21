@@ -3,13 +3,15 @@ import 'dart:developer';
 
 import 'package:guru_matka_new/apiService/api_path.dart';
 import 'package:guru_matka_new/apiService/sred_predrence_db.dart';
+import 'package:guru_matka_new/models/verifyOTpREsponce.dart';
 import 'package:http/http.dart' as http;
 
 class TransactionApi
 {
 
   Future<http.Response> transactionHistory({int page=1}) async {
-    String uri = '${MyUrl.base}${MyUrl.transectionHistory}?page=$page';
+    var user = await UserPref().getUser();
+    String uri = '${MyUrl.base}${MyUrl.transectionHistory}?page=$page&userId=${user?.id}';
     var toke =  await UserPref().getHeader();
     var resp = await http.get(Uri.parse(uri),
         headers:toke);

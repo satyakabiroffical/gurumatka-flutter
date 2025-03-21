@@ -152,7 +152,7 @@ class OtpScreen extends StatelessWidget {
                   animation: animation,
                   curve: Curves.easeIn,
                   child: Center(
-                    child: MyactionButton(
+                    child: MyActionButton(
                         action: ()=> p.verifyOtp(context),
                         lable: "Submit Now"
                     ),

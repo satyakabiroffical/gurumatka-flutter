@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:guru_matka_new/Controllers/profileProvider.dart';
 import 'package:guru_matka_new/apiService/otherApi.dart';
+import 'package:guru_matka_new/component/redirectmehode.dart';
 import 'package:guru_matka_new/component/serverErrorDailog.dart';
 import 'package:guru_matka_new/models/chat_resp.dart';
 import 'package:guru_matka_new/models/gameModel.dart';
@@ -18,6 +19,7 @@ class SocketProvider with ChangeNotifier
 {
 
   WebSocketChannel? _channel;
+  bool _connectScocket = true;
   final _otherAPi = OtherApi();
   ThreadData? _threadId;
   int _totlepage = 0;
@@ -46,31 +48,60 @@ class SocketProvider with ChangeNotifier
 }
       )async
   {
-    print("connctin wb socket");
-    final uri = Uri.parse("ws://api.gurumatka.in:1111");
-    _channel = WebSocketChannel.connect(uri);
 
 
-    await _channel?.ready;
-    print("connctin redy");
+    String socketChannel = "ws://api.gurumatka.in:1111/ws";
+    if(_connectScocket)
+    {
 
-    _channel?.stream.listen((event)async{
-      // print();
 
-      Logger().i("Listnning for chennerl \nEvent :- \n${jsonDecode(event)}");
+      print("connctin wb socket");
+      final uri = Uri.parse(socketChannel);
+      _channel = WebSocketChannel.connect(uri);
 
-     if(onEvent!=null)
-       {
-         onEvent(event);
-       }
 
-      handelEvent(event);
-      },onDone: (){
-      print("Socket Colose");
-    });
+      await _channel?.ready;
+      print("connctin redy");
+      _connectScocket = false;
+
+      _channel?.stream.listen((event)async{
 
 
 
+
+
+        // print();
+
+        Logger().i("Listing for channel \nEvent :- \n${jsonDecode(event)}");
+
+        if(onEvent!=null)
+        {
+          onEvent(event);
+        }
+
+        handelEvent(event);
+
+      },
+
+
+          onError: (e){
+
+        print("Error from socket done \n $e");
+
+          },
+
+
+
+
+          onDone: (){
+        _connectScocket =true;
+
+            print("Socket Colose");
+          });
+
+
+
+    }
   }
 
   lodeChats(BuildContext context) async
@@ -87,6 +118,11 @@ class SocketProvider with ChangeNotifier
         var _data = TreadDataResponce.fromJson(_d);
 
         _threadId = _data.data;
+        break;
+
+
+      case 401:
+        redirectToLogInPage(context);
         break;
 
       case 500:
@@ -205,6 +241,8 @@ class SocketProvider with ChangeNotifier
   handelEvent(String data)
   {
     var _d = jsonDecode(data);
+
+    print("this is event ${data}");
 
     if(_d["event"]=='sendMessage')
       {

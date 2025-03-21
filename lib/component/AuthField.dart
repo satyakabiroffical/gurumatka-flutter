@@ -58,6 +58,16 @@ class AuthField extends StatelessWidget {
           //
           fillColor: Color.fromRGBO(48, 49, 51, 1),
 
+
+          //
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Colors.white,
+                width: .5
+            ),
+            borderRadius: BorderRadius.circular(100),
+          ),
+
           //
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(

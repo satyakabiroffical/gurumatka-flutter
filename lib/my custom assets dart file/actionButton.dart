@@ -8,7 +8,7 @@ import '../component/shoeMessage.dart';
 import '../daimention/daimentio n.dart';
 
 
-class MyactionButton extends StatefulWidget {
+class MyActionButton extends StatefulWidget {
   Color? color;
   bool? handelError;
   Duration? duretion;
@@ -23,7 +23,7 @@ class MyactionButton extends StatefulWidget {
   Widget? activeChild;
   BoxDecoration? decoration;
   BoxDecoration? activeDecoration;
-  MyactionButton(
+  MyActionButton(
       {this.handelError,
         this.lable,
         this.color,
@@ -41,12 +41,12 @@ class MyactionButton extends StatefulWidget {
         super.key});
 
   @override
-  State<MyactionButton> createState() => _MyactionButtonState();
+  State<MyActionButton> createState() => _MyActionButtonState();
 }
 
-class _MyactionButtonState extends State<MyactionButton> {
+class _MyActionButtonState extends State<MyActionButton> {
   @override
-  void didUpdateWidget(covariant MyactionButton oldWidget) {
+  void didUpdateWidget(covariant MyActionButton oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     setState(() {});

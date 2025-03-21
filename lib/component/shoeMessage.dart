@@ -7,7 +7,7 @@ showWarningMessage(BuildContext context,String message,{bool warning = true})
   ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         elevation: 0,
-        duration: Duration(seconds: 1),
+        duration: Duration(seconds: 2),
       backgroundColor: Colors.transparent,
       content: Container(
         padding: EdgeInsets.all(5),
@@ -18,6 +18,7 @@ showWarningMessage(BuildContext context,String message,{bool warning = true})
           borderRadius: BorderRadius.circular(8)
         ),
         child: Text(message,
+        textAlign: TextAlign.center,
         style: TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: SC.from_width(14),

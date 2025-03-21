@@ -7,6 +7,7 @@ import 'package:guru_matka_new/component/CustomButton.dart';
 import 'package:guru_matka_new/component/shoeMessage.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 
 
@@ -177,7 +178,15 @@ class ShearAndEarnScreen extends StatelessWidget {
           SizedBox(height: SC.from_width(60),),
 
           //share Button
-          CustomButton(title: "Send Friends")
+          CustomButton(
+            onTap: (){
+              
+              Share.share("Check out this amazing app and use ref code = ${p.user?.referenceCode}: https://gurumatka.in",
+                  subject: "Download this awesome app",
+              );
+
+            },
+              title: "Send Friends")
 
 
 

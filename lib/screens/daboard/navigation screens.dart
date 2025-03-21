@@ -33,7 +33,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     //
     {
       'icon':'assets/navigation icon/chart.png',
-      'label':'Chart',
+      'label':'Result',
     },
     //
     {
@@ -68,11 +68,18 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
               controller: _pageController,
 
+              onPageChanged: (d){
+                _curruntIndex = d;
+                setState(() {
+
+                });
+              },
+
               children: [
 
 
                 //
-                HomeScreen(),
+                HomeScreen(controller: _pageController,),
 
                 //
                 ChartScreen(),
@@ -128,6 +135,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
                   currentIndex: _curruntIndex,
                   onTap: (n){
+                    FocusScope.of(context).unfocus();
                     _curruntIndex = n;
                     _pageController.jumpToPage(_curruntIndex);
                     setState(() {

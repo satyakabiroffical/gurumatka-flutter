@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guru_matka_new/component/appIcons.dart';
+import 'package:guru_matka_new/models/all%20game%20responce.dart';
 import 'package:guru_matka_new/models/gameModel.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%20file.dart';
 import 'package:guru_matka_new/screens/GamsScreens/gameDetailScree.dart';

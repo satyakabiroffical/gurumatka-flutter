@@ -21,12 +21,16 @@ class GameData {
     this.notOpenGames,
   });
 
-  factory GameData.fromJson(Map<String, dynamic> json) => GameData(
-    event: json["event"],
-    success: json["success"],
-    openGames: json["openGames"] == null ? [] : List<Game>.from(json["openGames"]!.map((x) => Game.fromJson(x))),
-    notOpenGames: json["notOpenGames"] == null ? [] : List<Game>.from(json["notOpenGames"]!.map((x) => Game.fromJson(x))),
-  );
+  factory GameData.fromJson(Map<String, dynamic> json){
+
+    print("Genrating Game");
+    return  GameData(
+      event: json["event"],
+      success: json["success"],
+      openGames: json["openGames"] == null ? [] : List<Game>.from(json["openGames"]!.map((x) => Game.fromJson(x))),
+      notOpenGames: json["notOpenGames"] == null ? [] : List<Game>.from(json["notOpenGames"]!.map((x) => Game.fromJson(x))),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "event": event,
@@ -45,6 +49,7 @@ class Game {
   bool? disable;
   DateTime? createdAt;
   DateTime? updatedAt;
+  int? recentResult;
   int? v;
 
   Game({
@@ -56,6 +61,7 @@ class Game {
     this.disable,
     this.createdAt,
     this.updatedAt,
+    this.recentResult,
     this.v,
   });
 
@@ -68,6 +74,7 @@ class Game {
     disable: json["disable"],
     createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
     updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+    recentResult: json["recentResult"] == null ? null : int.parse(json["recentResult"].toString()),
     v: json["__v"],
   );
 
@@ -80,6 +87,7 @@ class Game {
     "disable": disable,
     "createdAt": createdAt?.toIso8601String(),
     "updatedAt": updatedAt?.toIso8601String(),
+    'recentResult':recentResult,
     "__v": v,
   };
 }

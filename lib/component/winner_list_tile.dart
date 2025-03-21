@@ -57,13 +57,17 @@ class WinnerListTile extends StatelessWidget {
 
 
 
-        Text("${winners?.userId?.userName??"unknown"}",
-          style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: SC.from_width(19),
-            color: forGroundColor,
-
-          ),),
+        Expanded(
+          child: Text("${winners?.userId?.userName??"unknown"}",
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: SC.from_width(19),
+              color: forGroundColor,
+          
+            ),),
+        ),
         Spacer(),
 
         RichText(

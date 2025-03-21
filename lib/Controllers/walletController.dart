@@ -8,6 +8,7 @@ import 'package:guru_matka_new/apiService/otherApi.dart';
 import 'package:guru_matka_new/models/barcodeResompce.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../component/redirectmehode.dart';
 import '../component/serverErrorDailog.dart';
 
 class WalletProvider with ChangeNotifier
@@ -42,7 +43,7 @@ class WalletProvider with ChangeNotifier
         break;
 
       case 401:
-        log("TokenExpire");
+        redirectToLogInPage(context);
         break;
 
         //

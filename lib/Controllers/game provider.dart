@@ -1,16 +1,26 @@
 
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:guru_matka_new/Controllers/profileProvider.dart';
+import 'package:guru_matka_new/apiService/game_api.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/CustomButton.dart';
 import 'package:guru_matka_new/component/jodi_widget.dart';
+import 'package:guru_matka_new/component/serverErrorDailog.dart';
+import 'package:guru_matka_new/component/shoeMessage.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/models/gameInfo.dart';
+import 'package:guru_matka_new/models/gameModel.dart';
 import 'package:guru_matka_new/models/joidiModel.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/animated%20dilog.dart';
 import 'package:provider/provider.dart';
+
+import '../component/redirectmehode.dart';
 
 class GameProvider with ChangeNotifier
 {
@@ -21,6 +31,7 @@ class GameProvider with ChangeNotifier
   TextEditingController _crossingAmount = TextEditingController();
   bool _jodiCut = false;
   Map<String,String> _harufData ={};
+  GameInfo? _gameInfo;
 
 
 
@@ -30,14 +41,67 @@ class GameProvider with ChangeNotifier
   TextEditingController  get crossingAmount =>_crossingAmount;
   bool get jodiCut => _jodiCut;
   Map<String,String> get harufData => _harufData;
+  GameInfo? get gameInfo=> _gameInfo;
 
 
+
+
+  clear()
+  {
+    _selectedJodi =[];
+    _harufData = {};
+    _crossingResult =[];
+    _jodiCut = false;
+    _crossingValue.clear();
+    _crossingAmount.clear();
+    _gameInfo = null;
+
+  }
+
+
+  update()
+  {
+    notifyListeners();
+  }
+
+
+  getUserBettingAmount(BuildContext context) async
+  {
+    var resp = await GamesAPi().usrGetGameBet();
+
+    switch(resp.statusCode)
+    {
+
+    //
+      case 200:
+        var _d = jsonDecode(resp.body);
+        _gameInfo = GameInfo.fromJson(_d['data']);
+        notifyListeners();
+        break;
+
+    //
+      case 400:
+        break;
+
+    //
+      case 401:
+        showWarningMessage(context, "Token Expire");
+        break;
+
+      case 500:
+        serverErrorWidget(context, resp.body);
+        break;
+
+      default:
+        showWarningMessage(context, "Un Expected Error");
+        break;
+    }
+  }
 
 
   addHarufData(String key,String value)async
   {
     _harufData[key] =value;
-    notifyListeners();
   }
 
 
@@ -242,6 +306,8 @@ class GameProvider with ChangeNotifier
      
      if(prosid==true)
        {
+
+
          _selectedJodi.add(JodiModel(number: num, amount: int.parse(_c.text)));
          if(_selectAlt)
            {
@@ -257,7 +323,8 @@ class GameProvider with ChangeNotifier
   switchJodi()
   {
     _jodiCut = !_jodiCut;
-    crossingGameResult();
+
+
   }
 
 
@@ -315,6 +382,8 @@ class GameProvider with ChangeNotifier
   }
 
 
+
+
   List<int> crossingGameResult() {
     // Convert the number to a string to easily access individual digits
     String numStr = _crossingValue.text.toString();
@@ -347,7 +416,9 @@ class GameProvider with ChangeNotifier
 
     _crossingResult = twoDigitNumbers;
 
-    notifyListeners();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();  // Ensures UI updates after the build phase is complete
+    });
     // Return the list of two-digit numbers
     return twoDigitNumbers;
   }
@@ -376,6 +447,172 @@ class GameProvider with ChangeNotifier
       }
 
   }
+
+
+
+  submitJodiBet(BuildContext context,String gameId) async
+  {
+
+
+    var crTotla = totalAmount();
+    if(crTotla>=(_gameInfo?.minAmount??0)&&crTotla<=(_gameInfo?.maxAmount??0))
+      {
+        var resp =  await GamesAPi().crateGameForJodi(jodiList: _selectedJodi, totalAmount: totalAmount(), gameId: gameId);
+
+        switch(resp.statusCode)
+        {
+
+        //
+          case 201:
+            showWarningMessage(context, "Betting Submit",warning: false);
+            _selectedJodi = [];
+            Provider.of<ProfileProvider>(context,listen: false).getUser(context);
+            notifyListeners();
+            break;
+
+        //
+          case 400:
+            showWarningMessage(context,'${jsonDecode(resp.body)['message']}');
+            break;
+
+        //
+          case 401:
+            showWarningMessage(context, "Token Expire");
+            break;
+
+          case 500:
+            serverErrorWidget(context, resp.body);
+            break;
+
+          default:
+            showWarningMessage(context, "Un Expected Error");
+            break;
+        }
+      }
+    else
+      {
+        showWarningMessage(context, "Total Betting Amount Must Be In Range Of ${_gameInfo?.minAmount} - ${_gameInfo?.maxAmount}");
+      }
+
+  }
+
+
+  submitCrossingBet(BuildContext context,String gameId) async
+  {
+
+    var crTotla =  int.parse(_crossingAmount.text.isNotEmpty?_crossingAmount.text:'0')*_crossingResult.length;
+
+
+    if(crTotla>=(_gameInfo?.minAmount??0)&&crTotla<=(_gameInfo?.maxAmount??0))
+      {
+        var resp =  await GamesAPi().crateGameForCrossing(
+            crossingNumberList: _crossingResult,
+            amount: int.parse(_crossingAmount.text.isNotEmpty?_crossingAmount.text:'0'),
+            totalAmount: (int.parse(_crossingAmount.text.isNotEmpty?_crossingAmount.text:'0')*_crossingResult.length).toInt(),
+            gameId: gameId);
+
+        switch(resp.statusCode)
+        {
+
+        //
+          case 201:
+            showWarningMessage(context, "Betting Submit",warning: false);
+            _crossingAmount.clear();
+            _crossingValue.clear();
+            _crossingResult =[];
+            _jodiCut =false;
+            Provider.of<ProfileProvider>(context,listen: false).getUser(context);
+            notifyListeners();
+            break;
+
+        //
+          case 400:
+            showWarningMessage(context,'${jsonDecode(resp.body)['message']}');
+            break;
+
+        //
+
+          case 401:
+            redirectToLogInPage(context);
+            break;
+
+          case 500:
+            serverErrorWidget(context, resp.body);
+            break;
+
+          default:
+            showWarningMessage(context, "Un Expected Error");
+            break;
+        }
+      }
+    else
+      {
+        showWarningMessage(context, "Total Betting Amount Must Be In Range Of ${_gameInfo?.minAmount} - ${_gameInfo?.maxAmount}");
+      }
+
+
+  }
+
+
+
+  submitHarufBet(BuildContext context,String gameId) async
+  {
+
+    var crTotla =  getHarufTotle();
+    var user = Provider.of<ProfileProvider>(context,listen: false).user;
+
+    if(crTotla>=(_gameInfo?.minAmount??0)&&crTotla<=(_gameInfo?.maxAmount??0) )
+      {
+
+        var resp =  await GamesAPi().crateGameForHaruf(
+            harufData: _harufData,
+            totalAmount:getHarufTotle(),
+            gameId: gameId);
+
+        switch(resp.statusCode)
+        {
+
+        //
+          case 201:
+            showWarningMessage(context, "Betting Submit",warning: false);
+            _harufData  ={};
+            Provider.of<ProfileProvider>(context,listen: false).getUser(context);
+            notifyListeners();
+            break;
+
+        //
+          case 400:
+            showWarningMessage(context,'${jsonDecode(resp.body)['message']}');
+            break;
+
+        //
+          case 401:
+            redirectToLogInPage(context);
+            break;
+
+          case 500:
+            serverErrorWidget(context, resp.body);
+            break;
+
+          default:
+            showWarningMessage(context, "Un Expected Error");
+            break;
+        }
+
+      }
+    else
+      {
+        showWarningMessage(context, "Total Betting Amount Must Be In Range Of ${_gameInfo?.minAmount} - ${_gameInfo?.maxAmount}");
+
+
+      }
+
+
+  }
+
+
+
+
 
 }
 

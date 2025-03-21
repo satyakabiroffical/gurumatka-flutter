@@ -15,6 +15,7 @@ import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/CustomButton.dart';
 import 'package:guru_matka_new/component/customFormater.dart';
+import 'package:guru_matka_new/component/redirectmehode.dart';
 import 'package:guru_matka_new/component/serverErrorDailog.dart';
 import 'package:guru_matka_new/component/shoeMessage.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
@@ -22,6 +23,7 @@ import 'package:guru_matka_new/models/app_info_responce.dart';
 import 'package:guru_matka_new/models/get_conpany_model.dart';
 import 'package:guru_matka_new/models/verifyOTpREsponce.dart';
 import 'package:guru_matka_new/my%20custom%20assets%20dart%20file/myast%20dart%20file.dart';
+import 'package:guru_matka_new/push_notification/notification%20service.dart';
 import 'package:guru_matka_new/screens/daboard/home/homeScreen.dart';
 import 'package:guru_matka_new/screens/daboard/navigation%20screens.dart';
 import 'package:guru_matka_new/screens/onBording%20Screens/Otp.dart';
@@ -60,17 +62,24 @@ class AuthProvider with ChangeNotifier
     log('${_numberController.text}');
     if(_numberController.text.trim().length==10)
       {
+        print("Sendding otp ");
         var resp = await _auth.sendOtpToMobileNumber(_numberController.text.trim());
         log('Rsponce from send otp api ${resp.statusCode}\n${resp.body}');
         switch(resp.statusCode)
             {
+
           case 201:
+            print("navigation to otp Screen");
             RouteTo(context, child: (p0, p1) => OtpScreen(animation: p0),);
             break;
 
 
           case 500:
             serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
+            break;
+
+          case 401:
+            redirectToLogInPage(context);
             break;
 
 
@@ -87,27 +96,51 @@ class AuthProvider with ChangeNotifier
   {
     if(_otpController.text.length==4)
       {
+        print("Now otp verifyng ");
+        String? tocken;
+
+
+        if(await NotificationService().getPermission())
+          {
+            tocken = await NotificationService().getDeviceToken();
+          }
+
+        print("Tocken ${tocken}");
+
+
         var resp =  await _auth.verifyOtp(_numberController.text.trim(), _otpController.text.trim(),
+        fcmToken: tocken,
         refCode: (_refCodeController.text.isNotEmpty)?_refCodeController.text:null
         );
+
+        print("Otp hansend");
 
         log('responce from otp verfy api ${resp.statusCode} ${resp.body}');
 
         switch(resp.statusCode)
         {
           case 200:
+            print("decoding bosd");
             var d = jsonDecode(resp.body);
+            print("crating model");
             var _data = OtpVerifyResponce.fromJson(d);
+            print("getting saving User");
              await UserPref().saveUser(_data.data!.user!);
+            print("runnig use get api");
              await Provider.of<ProfileProvider>(context,listen: false).getUser(context);
              _numberController.clear();
              _otpController.clear();
-            RouteTo(context, child: (p0, p1) => NavigationScreen());
+            print("controller is clen now navigation to home screen");
+            ReplaceAll(context, child: (p0, p1) => NavigationScreen());
             break;
 
           case 400:
             var _d = jsonDecode(resp.body);
             showWarningMessage(context,'${_d['message']}');
+            break;
+
+          case 401:
+            redirectToLogInPage(context);
             break;
 
 
@@ -257,7 +290,7 @@ showMessage(BuildContext context) async
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           child: CustomButton(
                             onTap: () {
-                              // _warnningEnable =false;
+                              _warnningEnable =false;
                               Navigator.of(context).pop(); // Close dialog
                             },
                             title: "Close",
@@ -301,6 +334,11 @@ showMessage(BuildContext context) async
           break;
 
 
+        case 401:
+          redirectToLogInPage(context);
+          break;
+
+
         case 500:
           serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
           break;
@@ -325,6 +363,11 @@ logOut(BuildContext context)async
     case 200:
       UserPref().clearDb();
       ReplaceAll(context, child: (p0, p1) => LoginScreen(animation: p0),);
+      break;
+
+
+    case 401:
+      redirectToLogInPage(context);
       break;
 
       //

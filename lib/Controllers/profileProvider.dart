@@ -13,6 +13,8 @@ import 'package:guru_matka_new/models/barcodeResompce.dart';
 import 'package:guru_matka_new/models/verifyOTpREsponce.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../component/redirectmehode.dart';
+
 class ProfileProvider with ChangeNotifier
 {
   final authApi = AuthApi();
@@ -49,7 +51,12 @@ class ProfileProvider with ChangeNotifier
         var _d = jsonDecode(resp.body);
         var _data = User.fromJson(_d['data']);
         _user = _data;
+        UserPref().saveUser(_user!);
         notifyListeners();
+        break;
+
+      case 401:
+        redirectToLogInPage(context);
         break;
 
         //
@@ -75,6 +82,10 @@ class ProfileProvider with ChangeNotifier
         var _d = jsonDecode(resp.body);
         var _data = User.fromJson(_d["data"]);
         await updateUserData(_data);
+        break;
+
+      case 401:
+        redirectToLogInPage(context);
         break;
 
         //
@@ -201,6 +212,10 @@ class ProfileProvider with ChangeNotifier
         //
       case 500:
         serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
+        break;
+
+      case 401:
+        redirectToLogInPage(context);
         break;
 
     //

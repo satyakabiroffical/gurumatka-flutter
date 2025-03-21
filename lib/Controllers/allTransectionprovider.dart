@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:guru_matka_new/apiService/transectionApi.dart';
+import 'package:guru_matka_new/component/redirectmehode.dart';
 import 'package:guru_matka_new/component/shoeMessage.dart';
 import 'package:guru_matka_new/models/altransection.dart';
 import 'package:guru_matka_new/models/transectionhistory%20responce.dart';
@@ -62,6 +63,9 @@ class AllTransectionProvider with ChangeNotifier
         serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
         break;
 
+        case 401:
+          redirectToLogInPage(context);
+          break;
     //
       default :
         break;
@@ -90,6 +94,10 @@ class AllTransectionProvider with ChangeNotifier
 
           _page++;
         }
+        break;
+
+      case 401:
+        redirectToLogInPage(context);
         break;
 
       case 500:

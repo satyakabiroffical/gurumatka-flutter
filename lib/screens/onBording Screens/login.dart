@@ -113,7 +113,7 @@ class LoginScreen extends StatelessWidget {
                   endInterver: 1,
                   startPosition: Offset(1, 0),
                   child: Center(
-                    child: MyactionButton(
+                    child: MyActionButton(
                         action: ()=>  p.sentOtp(context),
                         lable: "Next"
                     ),

@@ -36,6 +36,7 @@ class Data {
   String? id;
   List<String>? banner;
   String? gameBanner;
+  String? game2Banner;
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
@@ -44,6 +45,7 @@ class Data {
     this.id,
     this.banner,
     this.gameBanner,
+    this.game2Banner,
     this.createdAt,
     this.updatedAt,
     this.v,
@@ -53,6 +55,7 @@ class Data {
     id: json["_id"],
     banner: json["banner"] == null ? [] : List<String>.from(json["banner"]!.map((x) => x)),
     gameBanner: json["gameBanner"],
+    game2Banner: json["game2Banner"],
     createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
     updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
     v: json["__v"],
@@ -62,6 +65,7 @@ class Data {
     "_id": id,
     "banner": banner == null ? [] : List<dynamic>.from(banner!.map((x) => x)),
     "gameBanner": gameBanner,
+    "game2Banner": game2Banner,
     "createdAt": createdAt?.toIso8601String(),
     "updatedAt": updatedAt?.toIso8601String(),
     "__v": v,

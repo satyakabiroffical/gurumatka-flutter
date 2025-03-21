@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -8,7 +9,9 @@ import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/appIcons.dart';
 import 'package:guru_matka_new/component/bakckground.dart';
 import 'package:guru_matka_new/component/customFormater.dart';
+import 'package:guru_matka_new/component/redirectmehode.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/models/all%20game%20responce.dart';
 import 'package:guru_matka_new/models/gameDetail.dart';
 import 'package:guru_matka_new/models/gameModel.dart';
 
@@ -146,6 +149,13 @@ class GameDetail extends StatelessWidget {
       
                     ],
                   );
+
+
+                case 401:
+                  Timer(Duration(seconds: 1),() {
+                    redirectToLogInPage(context);
+                  },);
+                  return SizedBox();
       
                 case 400:
                   return Center(child: Text("${snapshot.data?.body}"));

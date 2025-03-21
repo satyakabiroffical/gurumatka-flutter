@@ -6,6 +6,8 @@ import 'package:guru_matka_new/apiService/otherApi.dart';
 import 'package:guru_matka_new/component/serverErrorDailog.dart';
 import 'package:guru_matka_new/models/leader_board_api_responce.dart';
 
+import '../component/redirectmehode.dart';
+
 class LeaderBoardProvider with ChangeNotifier
 {
 
@@ -43,6 +45,10 @@ bool get initInt=>_initing;
         break;
 
       case 404:
+        break;
+
+      case 401:
+        redirectToLogInPage(context);
         break;
 
         //

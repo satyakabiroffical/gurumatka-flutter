@@ -103,14 +103,14 @@ class WithdrawHistoryTile extends StatelessWidget {
                 ),),
 
                 //
-                Text("${formatTime(data?.createdAt)}",
+                Text("${formatTime(data?.createdAt?.add(Duration(minutes: 330)))}",
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: SC.from_width(12),
                 ),),
 
                 //
-                Text("${formatDate(data?.createdAt)}",
+                Text("${formatDate(data?.createdAt?.add(Duration(minutes: 330)))}",
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: SC.from_width(12),

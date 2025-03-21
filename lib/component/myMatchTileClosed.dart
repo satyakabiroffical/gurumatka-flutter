@@ -25,7 +25,7 @@ class MyMatchTileClosed extends StatelessWidget {
           )
       ),
 
-      child:(noCloseGame==true)?Center(child: Text("No Close Is Game"),):Row(
+      child:(noCloseGame==true)?Center(child: Text("No Games"),):Row(
         children: [
           Container(
             height: SC.from_width(67),

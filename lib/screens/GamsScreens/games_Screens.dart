@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -51,6 +52,9 @@ class GamesScreen extends StatelessWidget {
                   {
                 return Center(child: HtmlWidget("Error:\n${snapshot.error}"),);
               }
+
+
+              // return Text("${snapshot.data!.statusCode}\n${snapshot.data?.body}");
 
               //
               if(snapshot.data?.statusCode==200)

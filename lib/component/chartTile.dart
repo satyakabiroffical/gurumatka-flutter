@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:guru_matka_new/component/AppConstent.dart';
 import 'package:guru_matka_new/component/appIcons.dart';
 import 'package:guru_matka_new/daimention/daimentio%20n.dart';
+import 'package:guru_matka_new/models/resultResponce%20Model.dart';
 
 class ChartTile extends StatelessWidget {
-  const ChartTile({super.key});
+  final ResultData resultData;
+  const ChartTile({required this.resultData,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class ChartTile extends StatelessWidget {
               children: [
 
               //
-              Text("Gali",
+              Text('${resultData.marketName!.split("_").join(' ')}',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -103,7 +105,7 @@ class ChartTile extends StatelessWidget {
               
             ),
             
-            child: Text("87",
+            child: Text("${resultData.result}",
             style: TextStyle(
               color: AppConstant.themYellow,
               fontWeight: FontWeight.w700,

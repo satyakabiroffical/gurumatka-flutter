@@ -103,14 +103,14 @@ class DipositHistoryTile extends StatelessWidget {
                   ),),
 
                 //
-                Text("${formatTime(transaction?.createdAt)}",
+                Text("${formatTime(transaction?.createdAt?.add(Duration(minutes: 330)))}",
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: SC.from_width(12),
                   ),),
 
                 //
-                Text("${formatDate(transaction?.createdAt)}",
+                Text("${formatDate(transaction?.createdAt?.add(Duration(minutes: 330)))}",
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: SC.from_width(12),

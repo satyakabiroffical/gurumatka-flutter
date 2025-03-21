@@ -28,7 +28,9 @@ class AllGameResponce {
   factory AllGameResponce.fromJson(Map<String, dynamic> json) => AllGameResponce(
     success: json["success"],
     message: json["message"],
-    data: json["data"] == null ? [] : List<Game>.from(json["data"]!.map((x) => Game.fromJson(x))),
+    data: json["data"] != null && json["data"] is List
+        ? List<Game>.from((json["data"] as List).map((item) => Game.fromJson(item as Map<String, dynamic>)))
+        : [],
     totalPages: json["totalPages"],
     currentPage: json["currentPage"],
   );
@@ -41,4 +43,5 @@ class AllGameResponce {
     "currentPage": currentPage,
   };
 }
+
 

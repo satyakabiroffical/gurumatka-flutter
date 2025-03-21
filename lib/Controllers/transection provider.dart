@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:guru_matka_new/apiService/transectionApi.dart';
+import 'package:guru_matka_new/component/redirectmehode.dart';
 import 'package:guru_matka_new/component/shoeMessage.dart';
 import 'package:guru_matka_new/models/transectionhistory%20responce.dart';
 import 'package:image_picker/image_picker.dart';
@@ -70,6 +71,11 @@ class TransectionProvider with ChangeNotifier
           }
         break;
 
+
+      case 401:
+        redirectToLogInPage(context);
+        break;
+
       case 500:
         serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
         break;
@@ -107,6 +113,10 @@ class TransectionProvider with ChangeNotifier
             },);
             _page++;
           }
+          break;
+
+        case 401:
+          redirectToLogInPage(context);
           break;
 
         case 500:
@@ -168,7 +178,11 @@ class TransectionProvider with ChangeNotifier
   //
   addAmmount(BuildContext context) async
   {
+
+
     print("AaaAmount");
+
+
     var resp = await _transectionApi.addAmmountInWalletRequest(
       amount: _ammuntController.text.trim(),
       transactionId: _tIdController.text.trim(),
@@ -187,6 +201,10 @@ class TransectionProvider with ChangeNotifier
 
         notifyListeners();
 
+        break;
+
+      case 401:
+        redirectToLogInPage(context);
         break;
 
       case 500:

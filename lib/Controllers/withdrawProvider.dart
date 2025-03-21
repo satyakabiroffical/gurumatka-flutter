@@ -11,6 +11,8 @@ import 'package:guru_matka_new/component/shoeMessage.dart';
 import 'package:guru_matka_new/models/transectionhistory%20responce.dart';
 import 'package:guru_matka_new/models/withdrawHistoryModel.dart';
 
+import '../component/redirectmehode.dart';
+
 class WithdrawProvider with ChangeNotifier
 {
   final _transectionApi = TransactionApi();
@@ -74,6 +76,10 @@ class WithdrawProvider with ChangeNotifier
         }
         break;
 
+      case 401:
+        redirectToLogInPage(context);
+        break;
+
         //
       case 500:
         serverErrorWidget(context, resp.body,title: kDebugMode?"Frome get Home APi":null);
@@ -112,6 +118,10 @@ class WithdrawProvider with ChangeNotifier
           },);
           _page++;
         }
+        break;
+
+      case 401:
+        redirectToLogInPage(context);
         break;
 
         //
@@ -191,6 +201,11 @@ class WithdrawProvider with ChangeNotifier
         Navigator.pop(context);
           clearTextControllers();
 
+        break;
+
+
+      case 401:
+        redirectToLogInPage(context);
         break;
 
 

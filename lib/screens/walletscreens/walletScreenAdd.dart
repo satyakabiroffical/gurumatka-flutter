@@ -132,7 +132,37 @@ class _WalletScreenAddState extends State<WalletScreenAdd> {
                             fontSize: SC.from_width(12)),
                       ),
                     ),
+                    SizedBox(height: SC.from_width(15),),
 
+
+
+                    Text("न्यूनतम राशि ₹200 या अधिक होनी चाहिए",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: SC.from_width(12)
+                    ),),
+                    SizedBox(height: SC.from_width(5),),
+
+                    //
+                    TextFormField(
+                      controller: p.ammuntController,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      keyboardType: TextInputType.number,
+                      validator: (s) {
+                        if (s!.isEmpty) {
+                          return "Enter Amount";
+                        }
+                        if(int.parse(s)<200)
+                          {
+                            return 'Add Minimum 200';
+                          }
+                      },
+                      decoration: InputDecoration(hintText: 'Enter Amount'),
+                    ),
+
+                    SizedBox(
+                      height: SC.from_width(23),
+                    ),
 
 
 
@@ -149,22 +179,10 @@ class _WalletScreenAddState extends State<WalletScreenAdd> {
                           }
                       },
                     ),
-                    SizedBox(
-                      height: SC.from_width(23),
-                    ),
+
 
                     //
-                    TextFormField(
-                      controller: p.ammuntController,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      keyboardType: TextInputType.number,
-                      validator: (s) {
-                        if (s!.isEmpty) {
-                          return "Enter Amount";
-                        }
-                      },
-                      decoration: InputDecoration(hintText: 'Enter Amount'),
-                    ),
+
                     SizedBox(
                       height: SC.from_width(6),
                     ),
@@ -214,7 +232,7 @@ class _WalletScreenAddState extends State<WalletScreenAdd> {
                       height: SC.from_width(25),
                     ),
 
-                    MyactionButton(
+                    MyActionButton(
                         action: ()async{
                           if(p.screenShot==null){
                             showWarningMessage(context, "Upload Screen Shot");

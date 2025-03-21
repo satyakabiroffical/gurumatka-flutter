@@ -43,3 +43,63 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+class CustomButtonWithIcon extends StatelessWidget {
+  final centerTitle ;
+  final Widget? icon;
+  final String title;
+  final double? height;
+  final bool waiting;
+  final double? width;
+  final void Function()? onTap;
+  const CustomButtonWithIcon({this.centerTitle = false,this.icon,this.waiting = false,this.onTap,this.width,this.height,required this.title ,super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular((height!=null)?height!/2:SC.from_width(18)/2),
+          side: BorderSide(
+            color: Colors.black,
+          )
+
+      ),
+      clipBehavior: Clip.hardEdge,
+      elevation: 0,
+      margin: EdgeInsets.zero,
+      child: Ink(
+        height: height??SC.from_width(49),
+        width: width??double.infinity,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+              Colors.white,
+              AppConstant.themYellow,
+            ])
+        ),
+        child: InkWell(
+            splashColor: Color.fromRGBO(240, 167, 30, .5),
+            onTap:onTap,
+            child: Center(child:
+            (waiting)?
+            CircularProgressIndicator():
+            Row(
+              mainAxisAlignment: centerTitle?MainAxisAlignment.center:MainAxisAlignment.start,
+              children: [
+                if(icon!=null)
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    height: SC.from_width(30),
+                    child: icon!,
+                  ),
+
+                Text(title,style: TextStyle(fontWeight: FontWeight.w600,fontSize: SC.from_width(16),color: Colors.black),),
+              ],
+            ))),
+      ),
+    );
+  }
+}

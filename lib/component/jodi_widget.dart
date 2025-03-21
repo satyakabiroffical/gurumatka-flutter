@@ -54,7 +54,7 @@ class JodiWidget extends StatelessWidget {
                     child: Center(
                         child: Padding(
                           padding:  EdgeInsets.only(bottom: (selected)?SC.from_width(6):0),
-                          child: Text('${number} '
+                          child: Text('${number.toString().padLeft(2,'0')}'
                                                 ,style: TextStyle(
                           color: selected ?Colors.black:Colors.white,
                           fontWeight: FontWeight.w600

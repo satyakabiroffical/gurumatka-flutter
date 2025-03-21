@@ -151,5 +151,62 @@ class OtherApi{
   }
 
 
+  Future<http.Response>getResult({
+    String filter='today',
+    int page=1,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async
+  {
+
+    String uri = '${MyUrl.base}${MyUrl.getResult}?filter=$filter&page=$page'
+        '${(filter=='manual')?"&startDate=${startDate?.year}-${startDate?.month.toString().padLeft(2,'0')}-${startDate?.day.toString().padLeft(2,'0')}":''}'
+        '${(filter=='manual')?"&endDate=${endDate?.year}-${endDate?.month.toString().padLeft(2,'0')}-${endDate?.day.toString().padLeft(2,'0')}":''}';
+
+
+    log("$uri");
+
+    var toke = await UserPref().getHeader();
+
+    //
+    var resp = await http.get(
+      Uri.parse(uri),
+      headers: toke,
+    );
+
+    //
+    log('$uri\n${resp.statusCode}\n${resp.body}');
+    return resp;
+  }
+
+  Future<http.Response>getUserBetting({
+    String? filter,
+    int page=1,
+  }) async
+  {
+
+    var user = await UserPref().getUser();
+
+    String uri = '${MyUrl.base}${MyUrl.getBattingByUserId}?userId=${user?.id??''}${filter!=null?'&type=$filter':''}&page=$page';
+
+
+    log("$uri");
+
+    var toke = await UserPref().getHeader();
+
+    //
+    var resp = await http.get(
+      Uri.parse(uri),
+      headers: toke,
+    );
+
+    //
+    log('$uri\n${resp.statusCode}\n${resp.body}');
+    return resp;
+  }
+
+
+
+
 
 }
